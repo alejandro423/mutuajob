@@ -57,7 +57,7 @@ class AuthController extends Controller
         'password' => Hash::make($request->password),
     ]);
 
-    // asignar rol
+    // asignar rol al usuario
     $role = Role::where('nombre', $request->role)->first();
     $user->roles()->attach($role->id);
 
