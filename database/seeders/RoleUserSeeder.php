@@ -48,5 +48,88 @@ class RoleUserSeeder extends Seeder
         );
 
         $empleador->roles()->syncWithoutDetaching([$empleadorRole->id]);
+
+        // USUARIOS EXTRA
+
+$usuarios = [
+
+    [
+        'name' => 'Juan Perez',
+        'email' => 'juan@gmail.com',
+        'role' => $adminRole
+    ],
+
+    [
+        'name' => 'Maria Lopez',
+        'email' => 'maria@gmail.com',
+        'role' => $adminRole
+    ],
+
+    [
+        'name' => 'Carlos Rojas',
+        'email' => 'carlos@gmail.com',
+        'role' => $trabajadorRole
+    ],
+
+    [
+        'name' => 'Ana Gutierrez',
+        'email' => 'ana@gmail.com',
+        'role' => $empleadorRole
+    ],
+
+    [
+        'name' => 'Luis Fernandez',
+        'email' => 'luis@gmail.com',
+        'role' => $trabajadorRole
+    ],
+
+    [
+        'name' => 'Sofia Vargas',
+        'email' => 'sofia@gmail.com',
+        'role' => $empleadorRole
+    ],
+
+    [
+        'name' => 'Diego Ramirez',
+        'email' => 'diego@gmail.com',
+        'role' => $trabajadorRole
+    ],
+
+    [
+        'name' => 'Camila Flores',
+        'email' => 'camila@gmail.com',
+        'role' => $empleadorRole
+    ],
+
+    [
+        'name' => 'Jorge Castillo',
+        'email' => 'jorge@gmail.com',
+        'role' => $trabajadorRole
+    ],
+
+    [
+        'name' => 'Valeria Mendoza',
+        'email' => 'valeria@gmail.com',
+        'role' => $empleadorRole
+    ],
+
+];
+
+foreach ($usuarios as $data) {
+
+    $nombreEmail = explode('@', $data['email'])[0];
+
+    $user = User::firstOrCreate(
+        ['email' => $data['email']],
+        [
+            'name' => $data['name'],
+            'password' => Hash::make($nombreEmail . '123'),
+        ]
+    );
+
+    $user->roles()->syncWithoutDetaching([
+        $data['role']->id
+    ]);
+}
     }
 }
