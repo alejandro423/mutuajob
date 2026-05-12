@@ -52,6 +52,6 @@
     <main class="flex-1 p-8">
         @yield('content')
     </main>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

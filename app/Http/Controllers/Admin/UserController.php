@@ -121,8 +121,22 @@ $users = User::with('roles')
 
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
+ if (Auth::id() == $id) {
 
+        return back()->with(
+            'error',
+            'No puedes eliminar tu propio usuario.'
+        );
+    }
+
+    $user = User::findOrFail($id);
+
+    $user->delete();
+
+    return back()->with(
+        'success',
+        'Usuario eliminado correctamente.'
+    );
         // BITACORA ELIMINAR
         Bitacora::create([
             'user_id' => Auth::id(),

@@ -18,7 +18,11 @@
         {{ session('success') }}
     </div>
 @endif
-
+@if(session('error'))
+    <div class="mb-4 bg-red-600/20 border border-red-600 text-red-400 px-4 py-3 rounded-xl">
+        {{ session('error') }}
+    </div>
+@endif
 <div class="bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden">
     <table class="w-full text-left">
         <thead class="bg-zinc-900 border-b border-zinc-800">
@@ -58,9 +62,9 @@
                                 Editar
                             </a>
 
-                            <form action="{{ route('admin.usuarios.destroy', $user->id) }}" method="POST"
-                                  onsubmit="return confirm('¿Eliminar este usuario?')">
-                                @csrf
+<form action="{{ route('admin.usuarios.destroy', $user->id) }}"
+      method="POST"
+      class="form-eliminar">                                @csrf
                                 @method('DELETE')
 
                                 <button type="submit"
@@ -80,6 +84,38 @@
             @endforelse
         </tbody>
     </table>
+    <script>
+
+    document.querySelectorAll('.form-eliminar').forEach(form => {
+
+        form.addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Eliminar usuario?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                background: '#18181b',
+                color: '#fff',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#3f3f46',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+
+            });
+
+        });
+
+    });
+
+</script>
 </div>
 <div class="mt-4">
     {{ $users->links() }}
