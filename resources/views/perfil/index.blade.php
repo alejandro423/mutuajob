@@ -182,8 +182,8 @@
 
     @else
         <p class="text-zinc-400">No hay idiomas registrados</p>
-    @endif
-
+    @endif 
+</div>
 <!--certificaciones-->
 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl mt-6">
 
@@ -219,12 +219,12 @@
 
                     <div class="flex gap-2">
 
-                        <a href="{{ route('perfil_certificacion.edit', $certificacion->id) }}"
+                        <a href="{{ route('perfil.certificacion_edit', $certificacion->id) }}"
                            class="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded text-sm">
                             Editar
                         </a>
 
-                        <form action="{{ route('perfil_certificacion.destroy', $certificacion->id) }}"
+                        <form action="{{ route('perfil.certificacion_destroy', $certificacion->id) }}"
                               method="POST"
                               onsubmit="return confirm('¿Eliminar esta certificación del perfil?')">
 

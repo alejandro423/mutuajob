@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Certificacion;
 
 class Perfil extends Model
 {
@@ -64,4 +65,12 @@ class Perfil extends Model
     {
         return $this->delete();
     }
+    public function certificaciones()
+{
+    return $this->belongsToMany(
+        Certificacion::class,
+        'perfil_certificaciones',
+        'perfil_id',
+    );
+}
 }

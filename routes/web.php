@@ -10,6 +10,7 @@ use App\Http\Controllers\HabilidadController;
 use App\Http\Controllers\IdiomaController;
 use App\Http\Controllers\PerfilHabilidadController;
 use App\Http\Controllers\PerfilIdiomaController;
+use App\Http\Controllers\CertificacionController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -145,16 +146,29 @@ Route::middleware(['auth'])->group(function () {
 });
 #certificaciones
 Route::middleware(['auth'])->group(function () {
+
     Route::get('/certificaciones', function () {
         return view('certificaciones');
     });
-    Route::get('/certificaciones/create', function () {
-        return view('certificaciones.create');
-        
+
+    Route::get('/certificacion/certificacion_create', function () {
+        return view('perfil.certificacion_create');
+    })->name('perfil.certificacion_create');
+     Route::get('/perfil/certificacion/create', [CertificacionController::class, 'create'])
+        ->name('perfil.certificacion_create');
+    Route::get('/perfil/certificacion/{id}/edit', [CertificacionController::class, 'edit'])
+        ->name('perfil.certificacion_edit');
+    Route::put('/perfil/certificacion/{id}', [CertificacionController::class, 'update'])
+        ->name('perfil.certificacion_update');
+    Route::post('/perfil/certificacion/store', [CertificacionController::class, 'store'])
+        ->name('perfil.certificacion_store');
+
+    Route::delete('/perfil/certificacion/{id}', [CertificacionController::class, 'destroy'])
+        ->name('perfil.certificacion_destroy');
+
 });
     // OFERTAS
     Route::get('/ofertas', function () {
         return view('ofertas');
     });
 
-});
