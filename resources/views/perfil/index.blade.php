@@ -122,40 +122,37 @@
 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
 
     <div class="flex justify-between items-center mb-4">
-
         <h2 class="text-xl font-bold">Idiomas</h2>
 
         <a href="{{ route('perfil.idioma_create') }}"
-           class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold">
+           class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold transition">
             + Agregar idioma
         </a>
-
     </div>
 
     @if($perfil && $perfil->idiomas->count())
 
-        <div class="space-y-2">
+        <div class="space-y-3">
 
             @foreach($perfil->idiomas as $idioma)
 
-                <div class="flex justify-between items-center bg-zinc-800 p-3 rounded-lg">
+                <div class="flex justify-between items-center bg-zinc-800 p-4 rounded-xl border border-zinc-700">
 
                     <div class="flex flex-col">
-
-                        <span>{{ $idioma->nombre }}</span>
-
-                        {{-- NIVEL --}}
-                        <span class="text-xs text-zinc-400">
-                            Nivel: {{ $idioma->pivot->nivel ?? 0 }}/5
+                        <span class="font-semibold text-white">
+                            {{ $idioma->nombre }}
                         </span>
 
+                        <span class="text-sm text-zinc-400">
+                            Nivel: {{ $idioma->pivot->nivel ?? 0 }}/5
+                        </span>
                     </div>
 
                     <div class="flex gap-2">
 
                         <a href="{{ route('perfil_idioma.edit', $idioma->id) }}"
-                           class="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded text-sm">
-                            Editar nivel
+                           class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
+                            Editar
                         </a>
 
                         <form action="{{ route('perfil_idioma.destroy', $idioma->id) }}"
@@ -166,7 +163,7 @@
                             @method('DELETE')
 
                             <button type="submit"
-                                    class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">
+                                    class="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition">
                                 Eliminar
                             </button>
 
@@ -181,18 +178,22 @@
         </div>
 
     @else
-        <p class="text-zinc-400">No hay idiomas registrados</p>
-    @endif 
-</div>
-<!--certificaciones-->
-<div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl mt-6">
 
+        <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-4 text-center">
+            <p class="text-zinc-400">
+                No hay idiomas registrados
+            </p>
+        </div>
+    @endif
+</div>
+{{-- CERTIFICACIONES --}}
+<div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
     <div class="flex justify-between items-center mb-4">
 
         <h2 class="text-xl font-bold">Certificaciones</h2>
 
         <a href="{{ route('perfil.certificacion_create') }}"
-           class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-semibold">
+           class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-semibold transition">
             + Agregar certificación
         </a>
 
@@ -200,19 +201,20 @@
 
     @if($perfil && $perfil->certificaciones->count())
 
-        <div class="space-y-2">
+        <div class="space-y-3">
 
             @foreach($perfil->certificaciones as $certificacion)
 
-                <div class="flex justify-between items-center bg-zinc-800 p-3 rounded-lg">
+                <div class="flex justify-between items-center bg-zinc-800 p-4 rounded-xl border border-zinc-700">
 
                     <div class="flex flex-col">
 
-                        <span>{{ $certificacion->nombre }}</span>
+                        <span class="font-semibold text-white">
+                            {{ $certificacion->nombre }}
+                        </span>
 
-                        {{-- INSTITUCIÓN --}}
-                        <span class="text-xs text-zinc-400">
-                            Institución: {{ $certificacion->pivot->institucion ?? 'Desconocida' }}
+                        <span class="text-sm text-zinc-400">
+                            {{ $certificacion->institucion ?? 'Institución desconocida' }}
                         </span>
 
                     </div>
@@ -220,7 +222,7 @@
                     <div class="flex gap-2">
 
                         <a href="{{ route('perfil.certificacion_edit', $certificacion->id) }}"
-                           class="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded text-sm">
+                           class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
                             Editar
                         </a>
 
@@ -232,7 +234,7 @@
                             @method('DELETE')
 
                             <button type="submit"
-                                    class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm">
+                                    class="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition">
                                 Eliminar
                             </button>
 
@@ -247,7 +249,13 @@
         </div>
 
     @else
-        <p class="text-zinc-400">No hay certificaciones registradas</p>
+
+        <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-4 text-center">
+            <p class="text-zinc-400">
+                No hay certificaciones registradas
+            </p>
+        </div>
+
     @endif
 
-@endsection
+</div>
