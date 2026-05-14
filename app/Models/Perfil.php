@@ -73,4 +73,8 @@ class Perfil extends Model
         'perfil_id',
     );
 }
+public function experiencias()
+{
+    return $this->hasMany(Experiencia::class);
+}
 }

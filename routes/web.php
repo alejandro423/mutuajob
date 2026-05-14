@@ -11,6 +11,7 @@ use App\Http\Controllers\IdiomaController;
 use App\Http\Controllers\PerfilHabilidadController;
 use App\Http\Controllers\PerfilIdiomaController;
 use App\Http\Controllers\CertificacionController;
+use App\Http\Controllers\ExperienciaController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -166,6 +167,19 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/perfil/certificacion/{id}', [CertificacionController::class, 'destroy'])
         ->name('perfil.certificacion_destroy');
 
+});
+#experiencias
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfil/experiencia/create', [ExperienciaController::class, 'create'])
+        ->name('perfil.experiencia_create');
+    Route::post('/perfil/experiencia/store', [ExperienciaController::class, 'store'])
+        ->name('perfil.experiencia_store');
+    Route::get('/perfil/experiencia/{id}/edit', [ExperienciaController::class, 'edit'])
+        ->name('perfil.experiencia_edit');
+    Route::put('/perfil/experiencia/{id}', [ExperienciaController::class, 'update'])
+        ->name('perfil.experiencia_update');
+    Route::delete('/perfil/experiencia/{id}', [ExperienciaController::class, 'destroy'])
+        ->name('perfil.experiencia_destroy');
 });
     // OFERTAS
     Route::get('/ofertas', function () {

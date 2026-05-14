@@ -255,7 +255,76 @@
                 No hay certificaciones registradas
             </p>
         </div>
-
     @endif
+</div>
+{{--experiencia--}}
+<div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
+    <div class="flex justify-between items-center mb-4">
 
+        <h2 class="text-xl font-bold">Experiencia Laboral</h2>
+
+        <a href="{{ route('perfil.experiencia_create') }}"
+           class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm font-semibold transition">
+            + Agregar experiencia
+        </a>
+
+    </div>
+
+    @if($perfil && $perfil->experiencias->count())
+
+        <div class="space-y-3">
+
+            @foreach($perfil->experiencias as $experiencia)
+
+                <div class="flex justify-between items-center bg-zinc-800 p-4 rounded-xl border border-zinc-700">
+
+                    <div class="flex flex-col">
+
+                        <span class="font-semibold text-white">
+                            {{ $experiencia->cargo }} en {{ $experiencia->empresa }}
+                        </span>
+
+                        <span class="text-sm text-zinc-400">
+                            {{ $experiencia->fecha_inicio }} - {{ $experiencia->fecha_fin ?? 'Actualidad' }}
+                        </span>
+
+                    </div>
+
+                    <div class="flex gap-2">
+
+                        <a href="{{ route('perfil.experiencia_edit', $experiencia->id) }}"
+                           class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
+                            Editar
+                        </a>
+
+                        <form action="{{ route('perfil.experiencia_destroy', $experiencia->id) }}"
+                              method="POST"
+                              onsubmit="return confirm('¿Eliminar esta experiencia del perfil?')">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition">
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+    @else
+
+        <div class="bg-zinc-800 border border-zinc-700 rounded-xl p-4 text-center">
+            <p class="text-zinc-400">
+                No hay experiencias registradas
+            </p>
+        </div>
+    @endif
 </div>
