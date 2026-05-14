@@ -18,21 +18,30 @@ class PerfilHabilidadController extends Controller
 
     // GUARDAR EN PIVOT
     public function store(Request $request)
-    {
-        $request->validate([
-            'habilidad_id' => 'required',
-            'nivel' => 'required'
-        ]);
+{
+    $request->validate([
+        'habilidad_id' => 'required',
+        'nivel' => 'required'
+    ]);
 
-        $perfil = Perfil::where('user_id', Auth::id())->first();
+    $perfil = Perfil::where('user_id', Auth::id())->first();
 
-        $perfil->habilidades()->attach($request->habilidad_id, [
-            'nivel' => $request->nivel
-        ]);
+    // Verificar si ya existe
+    if ($perfil->habilidades()
+        ->where('habilidad_id', $request->habilidad_id)
+        ->exists()) {
 
-        return redirect()->route('perfil.index')
-            ->with('success', 'Habilidad agregada al perfil');
+        return back()->with('error', 'Esta habilidad ya fue agregada.');
     }
+
+    // Agregar habilidad
+    $perfil->habilidades()->attach($request->habilidad_id, [
+        'nivel' => $request->nivel
+    ]);
+
+    return redirect()->route('perfil.index')
+        ->with('success', 'Habilidad agregada al perfil');
+}
     public function update(Request $request, int $id)
 {
     $request->validate([

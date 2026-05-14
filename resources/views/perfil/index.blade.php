@@ -85,7 +85,7 @@
 
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex gap-2 items-start">
 
             <a href="{{ route('perfil_habilidad.edit', $habilidad->id) }}"
                class="px-3 py-1 bg-yellow-600 hover:bg-yellow-700 rounded text-sm">
@@ -148,7 +148,7 @@
                         </span>
                     </div>
 
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 items-start">
 
                         <a href="{{ route('perfil_idioma.edit', $idioma->id) }}"
                            class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
@@ -219,7 +219,7 @@
 
                     </div>
 
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 items-start">
 
                         <a href="{{ route('perfil.certificacion_edit', $certificacion->id) }}"
                            class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
@@ -290,7 +290,7 @@
 
                     </div>
 
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 items-start">
 
                         <a href="{{ route('perfil.experiencia_edit', $experiencia->id) }}"
                            class="px-3 py-1.5 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">

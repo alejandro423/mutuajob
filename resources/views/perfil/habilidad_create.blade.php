@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+@if(session('error'))
+
+    <div class="bg-red-500 text-white px-4 py-3 rounded-lg mb-4">
+        {{ session('error') }}
+    </div>
+@endif
+@if(session('success'))
+
+    <div class="bg-green-500 text-white px-4 py-3 rounded-lg mb-4">
+        {{ session('success') }}
+    </div>
+
+@endif
 <div class="min-h-screen bg-zinc-950 text-white flex items-center justify-center px-4">
 
     <div class="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-2xl p-6">

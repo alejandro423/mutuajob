@@ -29,6 +29,13 @@ class HabilidadController extends Controller
         'nombre' => 'required|string|max:255'
     ]);
 
+    $habilidadExistente = Habilidad::where('nombre', $validated['nombre'])->first();
+
+    if ($habilidadExistente) {
+
+        return back()->with('error', 'Esta habilidad ya existe.');
+    }
+
     Habilidad::create([
         'nombre' => $validated['nombre']
     ]);

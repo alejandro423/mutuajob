@@ -4,89 +4,171 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MutuaJob</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
+
 <body class="bg-black text-white min-h-screen flex flex-col justify-between">
 
-    <!-- Contenido -->
+    {{-- CONTENIDO --}}
     <main class="flex-1 pb-24">
+
+        {{-- ALERTAS --}}
+        <div class="max-w-4xl mx-auto px-4 pt-4">
+
+            @if(session('success'))
+
+                <div class="bg-green-600 text-white px-4 py-3 rounded-xl mb-4">
+                    {{ session('success') }}
+                </div>
+
+            @endif
+
+            @if(session('error'))
+
+                <div class="bg-red-600 text-white px-4 py-3 rounded-xl mb-4">
+                    {{ session('error') }}
+                </div>
+
+            @endif
+
+        </div>
+
         @yield('content')
+
     </main>
 
-    <!-- Barra inferior -->
+    {{-- BARRA INFERIOR --}}
     <nav class="fixed bottom-0 left-0 w-full bg-zinc-950 border-t border-zinc-800">
+
         <div class="max-w-md mx-auto flex justify-around items-center py-3 relative">
 
-            <a href="{{ url('/inicio') }}" class="flex flex-col items-center text-white text-xs">
+            {{-- INICIO --}}
+            <a href="{{ url('/inicio') }}"
+               class="flex flex-col items-center text-xs transition
+               {{ request()->is('inicio') ? 'text-white' : 'text-zinc-400' }}">
+
                 <i class="bi bi-house-door-fill text-xl mb-1"></i>
+
                 Inicio
+
             </a>
 
-            <a href="#" class="flex flex-col items-center text-zinc-400 text-xs">
+            {{-- FAVORITOS --}}
+            <a href="{{ url('/favoritos') }}"
+               class="flex flex-col items-center text-xs transition
+               {{ request()->is('favoritos') ? 'text-white' : 'text-zinc-400' }}">
+
                 <i class="bi bi-heart text-xl mb-1"></i>
+
                 Favoritos
+
             </a>
 
+            {{-- BOTON CENTRAL --}}
             <div class="flex flex-col items-center">
 
-    <a href="{{ url('/perfil') }}" class="flex flex-col items-center">
+                @php($user = Auth::user())
 
-    @php($user = Auth::user())
+                {{-- TRABAJADOR --}}
+                @if($user && $user->roles->contains('nombre', 'trabajador'))
 
-@if($user && $user->roles->contains('nombre', 'trabajador'))
+                    <a href="{{ url('/perfil') }}"
+                       class="flex flex-col items-center">
 
-    <!-- TRABAJADOR: PERFIL -->
-    <a href="{{ url('/perfil') }}" class="flex flex-col items-center">
+                        <div class="relative -mt-8
+                            {{ request()->is('perfil') 
+                                ? 'bg-red-600 shadow-lg shadow-red-900/40' 
+                                : 'bg-zinc-800' }}
+                            hover:bg-red-700
+                            w-14 h-14 rounded-2xl flex items-center justify-center transition">
 
-        <div class="relative -mt-8 bg-red-600 hover:bg-red-700 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-red-900/40 transition">
-            <i class="bi bi-file-earmark-text text-2xl text-white"></i>
-        </div>
+                            <i class="bi bi-file-earmark-text text-2xl text-white"></i>
 
-        <span class="text-xs mt-1 text-gray-600 font-medium">
-            Perfil
-        </span>
+                        </div>
 
-    </a>
+                        <span class="text-xs mt-1 font-medium
+                            {{ request()->is('perfil') ? 'text-white' : 'text-zinc-400' }}">
 
-@elseif($user && $user->roles->contains('nombre', 'empleador'))
+                            Perfil
 
-    <!-- EMPLEADOR: OFERTAS -->
-    <a href="{{ url('/ofertas') }}" class="flex flex-col items-center">
+                        </span>
 
-        <div class="relative -mt-8 bg-blue-600 hover:bg-blue-700 w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-900/40 transition">
-            <i class="bi bi-briefcase text-2xl text-white"></i>
-        </div>
+                    </a>
 
-        <span class="text-xs mt-1 text-gray-600 font-medium">
-            Ofertas
-        </span>
+                {{-- EMPLEADOR --}}
+                @elseif($user && $user->roles->contains('nombre', 'empleador'))
 
-    </a>
+                    <a href="{{ url('/ofertas') }}"
+                       class="flex flex-col items-center">
 
-@endif
+                        <div class="relative -mt-8
+                            {{ request()->is('ofertas') 
+                                ? 'bg-blue-600 shadow-lg shadow-blue-900/40' 
+                                : 'bg-zinc-800' }}
+                            hover:bg-blue-700
+                            w-14 h-14 rounded-2xl flex items-center justify-center transition">
 
-</a>
+                            <i class="bi bi-briefcase text-2xl text-white"></i>
 
-</div>
+                        </div>
 
-            <a href="#" class="flex flex-col items-center text-zinc-400 text-xs">
+                        <span class="text-xs mt-1 font-medium
+                            {{ request()->is('ofertas') ? 'text-white' : 'text-zinc-400' }}">
+
+                            Ofertas
+
+                        </span>
+
+                    </a>
+
+                @endif
+
+            </div>
+
+            {{-- AVISOS --}}
+            <a href="{{ url('/avisos') }}"
+               class="flex flex-col items-center text-xs transition
+               {{ request()->is('avisos') ? 'text-white' : 'text-zinc-400' }}">
+
                 <i class="bi bi-bell text-xl mb-1"></i>
+
                 Avisos
+
             </a>
 
-            @if (Auth::check())
-    <a href="{{ url('/cuenta') }}" class="flex flex-col items-center text-zinc-400 text-xs">
-        <i class="bi bi-person text-xl mb-1"></i>
-        Cuenta
-    </a>
-@else
-    <a href="{{ url('/login') }}" class="flex flex-col items-center text-zinc-400 text-xs">
-        <i class="bi bi-person text-xl mb-1"></i>
-        Iniciar sesión
-    </a>
-@endif
+            {{-- CUENTA --}}
+            @if(Auth::check())
+
+                <a href="{{ url('/cuenta') }}"
+                   class="flex flex-col items-center text-xs transition
+                   {{ request()->is('cuenta') ? 'text-white' : 'text-zinc-400' }}">
+
+                    <i class="bi bi-person text-xl mb-1"></i>
+
+                    Cuenta
+
+                </a>
+
+            @else
+
+                <a href="{{ url('/login') }}"
+                   class="flex flex-col items-center text-xs transition
+                   {{ request()->is('login') ? 'text-white' : 'text-zinc-400' }}">
+
+                    <i class="bi bi-person text-xl mb-1"></i>
+
+                    Iniciar sesión
+
+                </a>
+
+            @endif
+
         </div>
+
     </nav>
 
 </body>
