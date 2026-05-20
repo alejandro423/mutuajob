@@ -12,6 +12,7 @@ use App\Http\Controllers\PerfilHabilidadController;
 use App\Http\Controllers\PerfilIdiomaController;
 use App\Http\Controllers\CertificacionController;
 use App\Http\Controllers\ExperienciaController;
+use App\Http\Controllers\OfertaController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -102,56 +103,39 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil_habilidad.update');
     Route::delete('/perfil-habilidad/{id}', [PerfilHabilidadController::class, 'destroy'])
         ->name('perfil_habilidad.destroy');
-
 });
 });
-
-
     // IDIOMAS
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/idiomas', [IdiomaController::class, 'index'])
         ->name('idiomas.index');
-
     Route::get('/idiomas/create', [IdiomaController::class, 'create'])
         ->name('idiomas.create');
-
     Route::post('/idiomas', [IdiomaController::class, 'store'])
         ->name('idiomas.store');
-
     Route::get('/idiomas/{id}/edit', [IdiomaController::class, 'edit'])
         ->name('idiomas.edit');
-
     Route::put('/idiomas/{id}', [IdiomaController::class, 'update'])
         ->name('idiomas.update');
-
     Route::delete('/idiomas/{id}', [IdiomaController::class, 'destroy'])
         ->name('idiomas.destroy');
-
-
     Route::get('/perfil-idioma/create', [PerfilIdiomaController::class, 'create'])
         ->name('perfil.idioma_create');
-
     Route::post('/perfil-idioma', [PerfilIdiomaController::class, 'store'])
         ->name('perfil_idioma.store');
-
     Route::get('/perfil-idioma/{id}/edit', [PerfilIdiomaController::class, 'edit'])
         ->name('perfil_idioma.edit');
-
     Route::put('/perfil-idioma/{id}', [PerfilIdiomaController::class, 'update'])
         ->name('perfil_idioma.update');
-
     Route::delete('/perfil-idioma/{id}', [PerfilIdiomaController::class, 'destroy'])
         ->name('perfil_idioma.destroy');
 
 });
 #certificaciones
 Route::middleware(['auth'])->group(function () {
-
     Route::get('/certificaciones', function () {
         return view('certificaciones');
     });
-
     Route::get('/certificacion/certificacion_create', function () {
         return view('perfil.certificacion_create');
     })->name('perfil.certificacion_create');
@@ -163,7 +147,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil.certificacion_update');
     Route::post('/perfil/certificacion/store', [CertificacionController::class, 'store'])
         ->name('perfil.certificacion_store');
-
     Route::delete('/perfil/certificacion/{id}', [CertificacionController::class, 'destroy'])
         ->name('perfil.certificacion_destroy');
 
@@ -181,8 +164,28 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/perfil/experiencia/{id}', [ExperienciaController::class, 'destroy'])
         ->name('perfil.experiencia_destroy');
 });
-    // OFERTAS
-    Route::get('/ofertas', function () {
-        return view('ofertas');
-    });
+   // OFERTAS
+Route::middleware(['auth'])->group(function () {
 
+    Route::get('/oferta', [OfertaController::class, 'index'])
+        ->name('oferta.index');
+
+    Route::get('/oferta/create', [OfertaController::class, 'create'])
+        ->name('oferta.create');
+
+    Route::post('/oferta/store', [OfertaController::class, 'store'])
+        ->name('oferta.store');
+
+    Route::get('/oferta/{id}', [OfertaController::class, 'show'])
+        ->name('oferta.show');
+
+    Route::get('/oferta/{id}/edit', [OfertaController::class, 'edit'])
+        ->name('oferta.edit');
+
+    Route::put('/oferta/{id}', [OfertaController::class, 'update'])
+        ->name('oferta.update');
+
+    Route::delete('/oferta/{id}', [OfertaController::class, 'destroy'])
+        ->name('oferta.destroy');
+
+});

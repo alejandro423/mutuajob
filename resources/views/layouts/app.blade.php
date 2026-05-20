@@ -102,7 +102,7 @@
                 {{-- EMPLEADOR --}}
                 @elseif($user && $user->roles->contains('nombre', 'empleador'))
 
-                    <a href="{{ url('/ofertas') }}"
+                    <a href="{{ url('/oferta') }}"
                        class="flex flex-col items-center">
 
                         <div class="relative -mt-8
@@ -117,7 +117,7 @@
                         </div>
 
                         <span class="text-xs mt-1 font-medium
-                            {{ request()->is('ofertas') ? 'text-white' : 'text-zinc-400' }}">
+                            {{ request()->is('oferta') ? 'text-white' : 'text-zinc-400' }}">
 
                             Ofertas
 
