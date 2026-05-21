@@ -30,6 +30,14 @@
         <i class="bi bi-people text-lg"></i>
         Usuarios
     </a>
+    <a href="{{ url('idiomas') }}"
+   class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
+
+    <i class="bi bi-translate text-lg"></i>
+
+    Idiomas
+
+</a>
     <a href="{{ url('/administrador/bitacora') }}"
    class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
     <i class="bi bi-journal-text text-lg"></i>

@@ -79,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil.edit');
     Route::put('/perfil/{id}', [PerfilController::class, 'update'])
         ->name('perfil.update');
-#habilidad
+#perfil_habilidad
 Route::middleware(['auth'])->group(function () {
     Route::get('/habilidades', [HabilidadController::class, 'index'])
         ->name('habilidades.index');
@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil_habilidad.destroy');
 });
 });
-    // IDIOMAS
+    #PERFIL_IDIOMAS
 Route::middleware(['auth'])->group(function () {
     Route::get('/idiomas', [IdiomaController::class, 'index'])
         ->name('idiomas.index');
@@ -188,4 +188,19 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/oferta/{id}', [OfertaController::class, 'destroy'])
         ->name('oferta.destroy');
 
+});
+#idiomas
+Route::middleware(['auth'])->group(function () {
+    Route::get('/idiomas', [IdiomaController::class, 'index'])
+        ->name('administrador.idiomas.index');
+    Route::get('/idioma/create', [IdiomaController::class, 'create'])
+        ->name('administrador.idiomas.create');
+    Route::post('/idiomas', [IdiomaController::class, 'store'])
+        ->name('administrador.idiomas.store');
+    Route::get('/idiomas/{id}/edit', [IdiomaController::class, 'edit'])
+        ->name('administrador.idiomas.edit');
+    Route::put('/idiomas/{id}', [IdiomaController::class, 'update'])
+        ->name('administrador.idiomas.update');
+    Route::delete('/idiomas/{id}', [IdiomaController::class, 'destroy'])
+        ->name('administrador.idiomas.destroy');
 });

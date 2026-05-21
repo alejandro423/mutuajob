@@ -7,40 +7,40 @@ use Illuminate\Http\Request;
 
 class IdiomaController extends Controller
 {
-    // LISTAR CATALOGO
+    // LISTAR
     public function index()
     {
-        $idiomas = Idioma::all();
-        return view('idiomas.index', compact('idiomas'));
+        $idiomas = Idioma::orderBy('id', 'desc')->paginate(5);
+
+        return view('administrador.idiomas.index', compact('idiomas'));
     }
 
     // FORM CREAR
     public function create()
     {
-        $idiomas = Idioma::all();
-        return view('perfil.idioma_create', compact('idiomas'));
+        return view('administrador.idiomas.create');
     }
 
-    // GUARDAR CATALOGO
+    // GUARDAR
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255'
         ]);
 
-        Idioma::create([
-            'nombre' => $validated['nombre']
-        ]);
+        Idioma::create($validated);
 
-        return redirect()->route('idiomas.index')
+        return redirect()
+            ->route('administrador.idiomas.index')
             ->with('success', 'Idioma creado correctamente');
     }
 
-    // EDITAR
+    // FORM EDITAR
     public function edit(int $id)
     {
         $idioma = Idioma::findOrFail($id);
-        return view('perfil.idioma_edit', compact('idioma'));
+
+        return view('administrador.idiomas.edit', compact('idioma'));
     }
 
     // ACTUALIZAR
@@ -48,22 +48,26 @@ class IdiomaController extends Controller
     {
         $idioma = Idioma::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255'
         ]);
 
-        $idioma->update($request->only('nombre'));
+        $idioma->update($validated);
 
-        return redirect()->route('idiomas.index')
-            ->with('success', 'Idioma actualizado');
+        return redirect()
+            ->route('administrador.idiomas.index')
+            ->with('success', 'Idioma actualizado correctamente');
     }
 
     // ELIMINAR
     public function destroy(int $id)
     {
-        Idioma::findOrFail($id)->delete();
+        $idioma = Idioma::findOrFail($id);
 
-        return redirect()->route('idiomas.index')
-            ->with('success', 'Idioma eliminado');
+        $idioma->delete();
+
+        return redirect()
+            ->route('administrador.idiomas.index')
+            ->with('success', 'Idioma eliminado correctamente');
     }
 }
