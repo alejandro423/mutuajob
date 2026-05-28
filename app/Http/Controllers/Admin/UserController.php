@@ -14,9 +14,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
-    // =========================
-    // ACTIVOS
-    // =========================
     public function index(Request $request)
     {
         $buscar = $request->buscar;
@@ -37,9 +34,6 @@ class UserController extends Controller
         return view('administrador.usuarios.index', compact('users'));
     }
 
-    // =========================
-    // PDF USUARIOS ACTIVOS
-    // =========================
     public function pdf()
     {
         $users = User::with('roles')
@@ -52,9 +46,6 @@ class UserController extends Controller
         return $pdf->download('usuarios_activos.pdf');
     }
 
-    // =========================
-    // INACTIVOS
-    // =========================
     public function inactivos(Request $request)
     {
         $buscar = $request->buscar;
@@ -75,27 +66,31 @@ class UserController extends Controller
         return view('administrador.usuarios.inactivos', compact('users'));
     }
 
-    // =========================
-    // CREATE
-    // =========================
     public function create()
     {
         $roles = Role::all();
         return view('administrador.usuarios.create', compact('roles'));
     }
 
-    // =========================
-    // STORE
-    // =========================
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
-            'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,id',
-        ]);
+    'name' => 'required|string|max:255',
+    'email' => 'required|email|unique:users,email',
+    'password' => 'required|min:6',
+    'roles' => 'required|array|min:1',
+    'roles.*' => 'exists:roles,id',
+], [
+    'name.required' => 'El nombre es obligatorio.',
+    'email.required' => 'El correo es obligatorio.',
+    'email.email' => 'Ingresa un correo válido.',
+    'email.unique' => 'Este correo ya existe.',
+    'password.required' => 'La contraseña es obligatoria.',
+    'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+    'roles.required' => 'Al menos un rol es obligatorio.',
+    'roles.array' => 'Los roles deben ser un array.',
+    'roles.min' => 'Debe seleccionar al menos un rol.',
+]);
 
         $user = User::create([
             'name' => $request->name,
@@ -107,21 +102,18 @@ class UserController extends Controller
         if ($request->roles) {
             $user->roles()->attach($request->roles);
         }
+        return redirect()
+    ->route('admin.usuarios.index')
+    ->with('success', 'Usuario creado correctamente.');
 
     }
 
-    // =========================
-    // SHOW
-    // =========================
     public function show(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
         return view('administrador.usuarios.show', compact('user'));
     }
 
-    // =========================
-    // EDIT
-    // =========================
     public function edit(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
@@ -130,9 +122,6 @@ class UserController extends Controller
         return view('administrador.usuarios.edit', compact('user', 'roles'));
     }
 
-    // =========================
-    // UPDATE
-    // =========================
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
@@ -169,10 +158,6 @@ class UserController extends Controller
         return redirect()->route('admin.usuarios.index')
             ->with('success', 'Usuario actualizado correctamente.');
     }
-
-    // =========================
-    // DESACTIVAR (LOGICO)
-    // =========================
     public function destroy(string $id)
     {
         if (Auth::id() == $id) {
@@ -196,10 +181,28 @@ class UserController extends Controller
 
         return back()->with('success', 'Usuario desactivado correctamente.');
     }
+public function forceDelete(int $id)
+    {
+        if (Auth::id() == $id) {
+            return back()->with('error', 'No puedes eliminar tu propio usuario.');
+        }
 
-    // =========================
-    // HABILITAR USUARIO
-    // =========================
+        $user = User::findOrFail($id);
+        $user->roles()->detach();
+        $user->forceDelete();
+
+        Bitacora::create([
+            'user_id' => Auth::id(),
+            'accion' => 'Eliminar usuario',
+            'tabla' => 'users',
+            'registro_id' => $user->id,
+            'descripcion' => 'Eliminó permanentemente usuario '.$user->name,
+            'ip' => request()->ip()
+        ]);
+
+        return back()->with('success', 'Usuario eliminado permanentemente.');
+    }
+    
     public function habilitar(string $id)
     {
         $user = User::findOrFail($id);

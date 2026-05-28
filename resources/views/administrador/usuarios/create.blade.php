@@ -10,37 +10,90 @@
         @csrf
 
         <div>
-            <label class="block text-sm text-zinc-300 mb-2">Nombre</label>
-            <input type="text" name="name" value="{{ old('name') }}"
-                   class="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl outline-none focus:border-red-600">
-        </div>
+    <label class="block text-sm text-zinc-300 mb-2">
+        Nombre
+    </label>
 
+    <input type="text"
+           name="name"
+           value="{{ old('name') }}"
+           class="w-full bg-zinc-900 border border-zinc-700
+                  text-white px-4 py-3 rounded-xl
+                  outline-none focus:border-red-600">
+
+    @error('name')
+        <p class="text-red-500 text-sm mt-1">
+            {{ $message }}
+        </p>
+    @enderror
+</div>
         <div>
             <label class="block text-sm text-zinc-300 mb-2">Correo</label>
             <input type="email" name="email" value="{{ old('email') }}"
                    class="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl outline-none focus:border-red-600">
+                   @error('email')
+    <p class="text-red-500 text-sm mt-1">
+        {{ $message }}
+    </p>
+@enderror
         </div>
 
         <div>
-            <label class="block text-sm text-zinc-300 mb-2">Contraseña</label>
-            <input type="password" name="password"
-                   class="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-xl outline-none focus:border-red-600">
-        </div>
+    <label class="block text-sm text-zinc-300 mb-2">
+        Contraseña
+    </label>
+
+    <input type="password"
+           name="password"
+           class="w-full bg-zinc-900 border border-zinc-700
+                  text-white px-4 py-3 rounded-xl
+                  outline-none focus:border-red-600">
+
+    @error('password')
+        <p class="text-red-500 text-sm mt-1">
+            {{ $message }}
+        </p>
+    @enderror
+</div>
 
         <div>
-            <label class="block text-sm text-zinc-300 mb-3">Roles</label>
+    <label class="block text-sm text-zinc-300 mb-3">
+        Roles
+    </label>
 
-            <div class="space-y-3">
-                @foreach($roles as $role)
-                    <label class="flex items-center gap-3 bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl cursor-pointer hover:border-red-600 transition">
-                        <input type="checkbox" name="roles[]" value="{{ $role->id }}"
-                               class="w-4 h-4 accent-red-600"
-                               {{ in_array($role->id, old('roles', [])) ? 'checked' : '' }}>
-                        <span class="text-white">{{ ucfirst($role->nombre) }}</span>
-                    </label>
-                @endforeach
-            </div>
-        </div>
+    <div class="space-y-3">
+
+        @foreach($roles as $role)
+
+            <label class="flex items-center gap-3
+                          bg-zinc-900 border border-zinc-800
+                          px-4 py-3 rounded-xl cursor-pointer
+                          hover:border-red-600 transition">
+
+                <input type="checkbox"
+                       name="roles[]"
+                       value="{{ $role->id }}"
+                       class="w-4 h-4 accent-red-600"
+                       {{ in_array($role->id, old('roles', [])) ? 'checked' : '' }}>
+
+                <span class="text-white">
+                    {{ ucfirst($role->nombre) }}
+                </span>
+
+            </label>
+
+        @endforeach
+
+    </div>
+
+    @error('roles')
+        <p class="text-red-500 text-sm mt-2">
+            {{ $message }}
+        </p>
+    @enderror
+</div>
+
+         <div class="pt-4 flex justify-end">
 
         <div class="flex gap-3">
             <a href="{{ route('admin.usuarios.index') }}"

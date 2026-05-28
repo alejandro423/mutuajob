@@ -54,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/administrador/inicio', function () {
     return view('administrador.inicio');
 })->middleware(['auth', 'role:administrador']);
-#modulo de usuarios
+# MODULO DE USUARIOS
 Route::middleware(['auth', 'role:administrador'])
 
     ->prefix('administrador')
@@ -69,17 +69,48 @@ Route::middleware(['auth', 'role:administrador'])
             [UserController::class, 'index']
         )->name('usuarios.index');
 
+        // USUARIOS INACTIVOS
+        Route::get(
+            '/usuarios/inactivos',
+            [UserController::class, 'inactivos']
+        )->name('usuarios.inactivos');
+
         // PDF
         Route::get(
             '/usuarios/pdf',
             [UserController::class, 'pdf']
         )->name('usuarios.pdf');
 
-        // USUARIOS INACTIVOS
+        // FORM CREAR
         Route::get(
-            '/usuarios/inactivos',
-            [UserController::class, 'inactivos']
-        )->name('usuarios.inactivos');
+            '/usuarios/create',
+            [UserController::class, 'create']
+        )->name('usuarios.create');
+
+        // GUARDAR
+        Route::post(
+            '/usuarios',
+            [UserController::class, 'store']
+        )->name('usuarios.store');
+        // DETALLE USUARIO
+        Route::get(
+            '/usuarios/{id}',
+            [UserController::class, 'show']
+        )->name('usuarios.show');
+        Route::get(
+            '/usuarios/{id}/edit',
+            [UserController::class, 'edit']
+        )->name('usuarios.edit');
+
+        // ACTUALIZAR
+        Route::put(
+            '/usuarios/{id}',
+            [UserController::class, 'update']
+        )->name('usuarios.update');
+        Route::delete(
+            '/usuarios/{id}',
+            [UserController::class, 'destroy']
+        )->name('usuarios.destroy');
 
         // HABILITAR USUARIO
         Route::put(
@@ -87,9 +118,10 @@ Route::middleware(['auth', 'role:administrador'])
             [UserController::class, 'habilitar']
         )->name('usuarios.habilitar');
 
-        // CRUD
-        Route::resource('usuarios', UserController::class)
-            ->except(['index']);
+        Route::delete(
+            '/usuarios/{id}/force-delete',
+            [UserController::class, 'forceDelete']
+        )->name('usuarios.forceDelete');
 
     });
 #modulo bitacora
