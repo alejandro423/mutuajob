@@ -8,37 +8,143 @@
         {{-- PERFIL --}}
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
 
-            <div class="flex items-center gap-4 border-b border-zinc-800 pb-4 mb-6">
-                <div class="w-16 h-16 rounded-full bg-zinc-700 flex items-center justify-center text-xl font-bold">
+           {{-- HEADER PERFIL --}}
+<div class="border-b border-zinc-800 pb-6 mb-6">
+
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-5">
+
+        {{-- FOTO --}}
+        <div class="w-28 h-28 rounded-full overflow-hidden bg-zinc-700 shrink-0">
+
+            @if($perfil->foto)
+
+                <img src="{{ asset('storage/' . $perfil->foto) }}"
+                     alt="Foto de perfil"
+                     class="w-full h-full object-cover">
+
+            @else
+
+                <div class="w-full h-full flex items-center justify-center text-3xl font-bold">
+
                     {{ strtoupper(substr($perfil->nombre ?? 'U', 0, 1)) }}
+
                 </div>
 
-                <div>
-                    <h1 class="text-xl font-bold">
-                        {{ $perfil->nombre ?? 'Sin nombre' }} {{ $perfil->apellido ?? '' }}
-                    </h1>
-                    <p class="text-sm text-zinc-400">{{ $perfil->email ?? 'Sin email' }}</p>
-                </div>
-            </div>
+            @endif
 
-            <div class="space-y-4">
-                <div>
-                    <p class="text-zinc-400 text-sm">Teléfono</p>
-                    <p>{{ $perfil->telefono ?? 'No registrado' }}</p>
-                </div>
+        </div>
 
-                <div>
-                    <p class="text-zinc-400 text-sm">Ubicación</p>
-                    <p>{{ $perfil->ubicacion ?? 'No registrada' }}</p>
-                </div>
+        {{-- NOMBRE --}}
+        <div class="flex-1 text-center md:text-left">
 
-                <div>
-                    <p class="text-zinc-400 text-sm">Descripción</p>
-                    <p class="leading-relaxed">
-                        {{ $perfil->resumen_profesional ?? 'Sin descripción' }}
-                    </p>
-                </div>
-            </div>
+            <h1 class="text-3xl font-bold text-white">
+
+                {{ $perfil->nombre ?? 'Sin nombre' }}
+                {{ $perfil->apellido ?? '' }}
+
+            </h1>
+
+            <p class="text-zinc-400 mt-2">
+
+                {{ $perfil->email ?? 'Sin email' }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{{-- DATOS PERFIL --}}
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    {{-- DNI --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            DNI / CI
+        </p>
+
+        <p class="text-white">
+            {{ $perfil->dni ?? 'No registrado' }}
+        </p>
+    </div>
+
+    {{-- FECHA NACIMIENTO --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            Fecha de nacimiento
+        </p>
+
+        <p class="text-white">
+            {{ $perfil->fecha_nacimiento ?? 'No registrada' }}
+        </p>
+    </div>
+
+    {{-- SEXO --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            Sexo
+        </p>
+
+        <p class="text-white">
+            {{ ucfirst($perfil->sexo ?? 'No registrado') }}
+        </p>
+    </div>
+
+    {{-- TELEFONO --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            Teléfono
+        </p>
+
+        <p class="text-white">
+            {{ $perfil->telefono ?? 'No registrado' }}
+        </p>
+    </div>
+
+    {{-- UBICACION --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            Ubicación
+        </p>
+
+        <p class="text-white">
+            {{ $perfil->ubicacion ?? 'No registrada' }}
+        </p>
+    </div>
+
+    {{-- EMAIL --}}
+    <div>
+        <p class="text-zinc-400 text-sm">
+            Correo electrónico
+        </p>
+
+        <p class="text-white break-all">
+            {{ $perfil->email ?? 'Sin email' }}
+        </p>
+    </div>
+
+</div>
+
+{{-- DESCRIPCION --}}
+<div class="mt-8">
+
+    <p class="text-zinc-400 text-sm mb-2">
+        Resumen profesional
+    </p>
+
+    <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+
+        <p class="leading-relaxed text-zinc-300">
+
+            {{ $perfil->resumen_profesional ?? 'Sin descripción' }}
+
+        </p>
+
+    </div>
+
+</div>
 
             <div class="mt-6 flex gap-3">
                 <a href="{{ route('perfil.edit', $perfil->id ?? 0) }}"

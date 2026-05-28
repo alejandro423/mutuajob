@@ -17,11 +17,15 @@ return new class extends Migration
 
         $table->string('nombre');
         $table->string('apellido')->nullable();
+        $table->string('dni', 30)->nullable()->unique();
+        $table->date('fecha_nacimiento')->nullable();
+        $table->enum('sexo', ['masculino','femenino','otro'])->nullable();
         $table->string('foto')->nullable();
         $table->string('telefono', 30)->nullable();
         $table->string('ubicacion')->nullable();
         $table->string('email')->unique();
         $table->text('resumen_profesional')->nullable();
+        $table->boolean('estado')->default(1);
 
         $table->timestamps();
     });

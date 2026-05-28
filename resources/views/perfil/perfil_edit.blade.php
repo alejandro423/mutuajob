@@ -36,124 +36,208 @@
             @csrf
             @method('PUT')
 
-            <div class="space-y-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Nombre
-                    </label>
+    {{-- NOMBRE --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Nombre
+        </label>
 
-                    <input
-                        type="text"
-                        name="nombre"
-                        value="{{ old('nombre', $perfil->nombre) }}"
-                        placeholder="Ingresa tu nombre"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
-                    >
-                </div>
+        <input
+            type="text"
+            name="nombre"
+            value="{{ old('nombre', $perfil->nombre) }}"
+            placeholder="Ingresa tu nombre"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
+    </div>
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Apellido
-                    </label>
+    {{-- APELLIDO --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Apellido
+        </label>
 
-                    <input
-                        type="text"
-                        name="apellido"
-                        value="{{ old('apellido', $perfil->apellido) }}"
-                        placeholder="Ingresa tu apellido"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
-                    >
-                </div>
+        <input
+            type="text"
+            name="apellido"
+            value="{{ old('apellido', $perfil->apellido) }}"
+            placeholder="Ingresa tu apellido"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
+    </div>
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Correo electrónico
-                    </label>
+    {{-- DNI --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            DNI / CI
+        </label>
 
-                    <input
-                        type="email"
-                        name="email"
-                        value="{{ old('email', $perfil->email) }}"
-                        placeholder="Ingresa tu correo"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
-                    >
-                </div>
+        <input
+            type="text"
+            name="dni"
+            value="{{ old('dni', $perfil->dni) }}"
+            placeholder="Ingresa tu DNI"
+            maxlength="8"
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+            >
+    </div>
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Teléfono
-                    </label>
+    {{-- FECHA NACIMIENTO --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Fecha de nacimiento (mínimo debes tener 18 años)
+        </label>
 
-                    <input
-                        type="text"
-                        name="telefono"
-                        value="{{ old('telefono', $perfil->telefono) }}"
-                        placeholder="Ingresa tu teléfono"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
-                    >
-                </div>
+        <input
+    type="date"
+    name="fecha_nacimiento"
+    value="{{ old('fecha_nacimiento', $perfil->fecha_nacimiento) }}"
+    max="{{ \Carbon\Carbon::now()->subYears(18)->format('Y-m-d') }}"
+    class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+>
+    </div>
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Ubicación
-                    </label>
+    {{-- SEXO --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Sexo
+        </label>
 
-                    <input
-                        type="text"
-                        name="ubicacion"
-                        value="{{ old('ubicacion', $perfil->ubicacion) }}"
-                        placeholder="Ej: La Paz, Bolivia"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
-                    >
-                </div>
+        <select
+            name="sexo"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Resumen Profesional
-                    </label>
+            <option value="">
+                Selecciona una opción
+            </option>
 
-                    <textarea
-                        name="resumen_profesional"
-                        rows="5"
-                        placeholder="Cuéntanos sobre ti..."
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none resize-none focus:border-red-600"
-                    >{{ old('resumen_profesional', $perfil->resumen_profesional) }}</textarea>
-                </div>
+            <option value="masculino"
+                {{ old('sexo', $perfil->sexo) == 'masculino' ? 'selected' : '' }}>
+                Masculino
+            </option>
 
-                <div>
-                    <label class="block text-sm text-zinc-300 mb-2">
-                        Foto de perfil
-                    </label>
+            <option value="femenino"
+                {{ old('sexo', $perfil->sexo) == 'femenino' ? 'selected' : '' }}>
+                Femenino
+            </option>
 
-                    <input
-                        type="file"
-                        name="foto"
-                        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-400 file:bg-red-600 file:border-0 file:text-white file:px-4 file:py-2 file:rounded-lg"
-                    >
-                </div>
+            <option value="otro"
+                {{ old('sexo', $perfil->sexo) == 'otro' ? 'selected' : '' }}>
+                Otro
+            </option>
 
-                <div class="flex gap-4 pt-4">
+        </select>
+    </div>
 
-                    <button
-                        type="submit"
-                        class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition"
-                    >
-                        <i class="bi bi-check-circle me-2"></i>
-                        Guardar cambios
-                    </button>
+    {{-- TELEFONO --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Teléfono
+        </label>
 
-                    <a
-                        href="{{ route('perfil.index') }}"
-                        class="flex-1 text-center bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-xl font-semibold transition"
-                    >
-                        <i class="bi bi-arrow-left me-2"></i>
-                        Volver
-                    </a>
+        <input
+            type="text"
+            name="telefono"
+            value="{{ old('telefono', $perfil->telefono) }}"
+            placeholder="Ingresa tu teléfono"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
+    </div>
 
-                </div>
+    {{-- UBICACION --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Ubicación
+        </label>
 
-            </div>
+        <input
+            type="text"
+            name="ubicacion"
+            value="{{ old('ubicacion', $perfil->ubicacion) }}"
+            placeholder="Ej: La Paz, Bolivia"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
+    </div>
+
+    {{-- EMAIL --}}
+    <div>
+        <label class="block text-sm text-zinc-300 mb-2">
+            Correo electrónico
+        </label>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ old('email', $perfil->email) }}"
+            placeholder="Ingresa tu correo"
+            class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none focus:border-red-600"
+        >
+    </div>
+
+</div>
+
+{{-- RESUMEN --}}
+<div class="mt-5">
+
+    <label class="block text-sm text-zinc-300 mb-2">
+        Resumen Profesional
+    </label>
+
+    <textarea
+        name="resumen_profesional"
+        rows="5"
+        placeholder="Cuéntanos sobre ti..."
+        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-white outline-none resize-none focus:border-red-600"
+    >{{ old('resumen_profesional', $perfil->resumen_profesional) }}</textarea>
+
+</div>
+
+{{-- FOTO --}}
+<div class="mt-5">
+
+    <label class="block text-sm text-zinc-300 mb-2">
+        Foto de perfil
+    </label>
+
+    <input
+        type="file"
+        name="foto"
+        accept="image/*"
+        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-400 file:bg-red-600 file:border-0 file:text-white file:px-4 file:py-2 file:rounded-lg"
+    >
+
+</div>
+
+{{-- BOTONES --}}
+<div class="flex gap-4 pt-6">
+
+    <button
+        type="submit"
+        class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition"
+    >
+
+        <i class="bi bi-check-circle me-2"></i>
+
+        Guardar cambios
+
+    </button>
+
+    <a
+        href="{{ route('perfil.index') }}"
+        class="flex-1 text-center bg-zinc-800 hover:bg-zinc-700 text-white py-3 rounded-xl font-semibold transition"
+    >
+
+        <i class="bi bi-arrow-left me-2"></i>
+
+        Volver
+
+    </a>
+
+</div>
 
         </form>
 

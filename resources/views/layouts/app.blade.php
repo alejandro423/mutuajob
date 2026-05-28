@@ -15,6 +15,17 @@
 
     {{-- CONTENIDO --}}
     <main class="flex-1 pb-24">
+        <style>
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+
+    filter: invert(1);
+
+    cursor: pointer;
+
+}
+
+</style>
 
         {{-- ALERTAS --}}
         <div class="max-w-4xl mx-auto px-4 pt-4">
