@@ -10,24 +10,83 @@ use App\Models\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
-    public function index()
+    // =========================
+    // ACTIVOS
+    // =========================
+    public function index(Request $request)
     {
-$users = User::with('roles')
-    ->orderBy('id', 'desc')
-    ->paginate(5);
+        $buscar = $request->buscar;
+
+        $users = User::with('roles')
+            ->where('estado', 1)
+            ->when($buscar, function ($query) use ($buscar) {
+
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('name', 'like', "%{$buscar}%")
+                      ->orWhere('email', 'like', "%{$buscar}%");
+                });
+
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+
         return view('administrador.usuarios.index', compact('users'));
     }
 
+    // =========================
+    // PDF USUARIOS ACTIVOS
+    // =========================
+    public function pdf()
+    {
+        $users = User::with('roles')
+            ->where('estado', 1)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('administrador.usuarios.pdf', compact('users'));
+
+        return $pdf->download('usuarios_activos.pdf');
+    }
+
+    // =========================
+    // INACTIVOS
+    // =========================
+    public function inactivos(Request $request)
+    {
+        $buscar = $request->buscar;
+
+        $users = User::with('roles')
+            ->where('estado', 0)
+            ->when($buscar, function ($query) use ($buscar) {
+
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('name', 'like', "%{$buscar}%")
+                      ->orWhere('email', 'like', "%{$buscar}%");
+                });
+
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+
+        return view('administrador.usuarios.inactivos', compact('users'));
+    }
+
+    // =========================
+    // CREATE
+    // =========================
     public function create()
     {
         $roles = Role::all();
-
         return view('administrador.usuarios.create', compact('roles'));
     }
 
+    // =========================
+    // STORE
+    // =========================
     public function store(Request $request)
     {
         $request->validate([
@@ -42,43 +101,38 @@ $users = User::with('roles')
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'estado' => 1
         ]);
 
-        // GUARDAR ROLES
-        if ($request->has('roles')) {
+        if ($request->roles) {
             $user->roles()->attach($request->roles);
         }
 
-        // BITACORA CREAR
-        Bitacora::create([
-            'user_id' => Auth::id(),
-            'accion' => 'Crear usuario',
-            'tabla' => 'users',
-            'registro_id' => $user->id,
-            'descripcion' => 'El administrador creó al usuario '.$user->name,
-            'ip' => $request->ip()
-        ]);
-
-        return redirect()->route('admin.usuarios.index')
-            ->with('success', 'Usuario creado correctamente.');
     }
 
+    // =========================
+    // SHOW
+    // =========================
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-
+        $user = User::with('roles')->findOrFail($id);
         return view('administrador.usuarios.show', compact('user'));
     }
 
+    // =========================
+    // EDIT
+    // =========================
     public function edit(string $id)
     {
         $user = User::with('roles')->findOrFail($id);
-
         $roles = Role::all();
 
         return view('administrador.usuarios.edit', compact('user', 'roles'));
     }
 
+    // =========================
+    // UPDATE
+    // =========================
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
@@ -96,22 +150,19 @@ $users = User::with('roles')
             'email' => $request->email,
         ];
 
-        if ($request->filled('password')) {
+        if ($request->password) {
             $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);
-
-        // ACTUALIZAR ROLES
         $user->roles()->sync($request->roles ?? []);
 
-        // BITACORA EDITAR
         Bitacora::create([
             'user_id' => Auth::id(),
             'accion' => 'Editar usuario',
             'tabla' => 'users',
             'registro_id' => $user->id,
-            'descripcion' => 'El administrador editó al usuario '.$user->name,
+            'descripcion' => 'Editó usuario '.$user->name,
             'ip' => $request->ip()
         ]);
 
@@ -119,37 +170,53 @@ $users = User::with('roles')
             ->with('success', 'Usuario actualizado correctamente.');
     }
 
+    // =========================
+    // DESACTIVAR (LOGICO)
+    // =========================
     public function destroy(string $id)
     {
- if (Auth::id() == $id) {
+        if (Auth::id() == $id) {
+            return back()->with('error', 'No puedes eliminar tu propio usuario.');
+        }
 
-        return back()->with(
-            'error',
-            'No puedes eliminar tu propio usuario.'
-        );
-    }
+        $user = User::findOrFail($id);
 
-    $user = User::findOrFail($id);
+        $user->update([
+            'estado' => 0
+        ]);
 
-    $user->delete();
-
-    return back()->with(
-        'success',
-        'Usuario eliminado correctamente.'
-    );
-        // BITACORA ELIMINAR
         Bitacora::create([
             'user_id' => Auth::id(),
-            'accion' => 'Eliminar usuario',
+            'accion' => 'Desactivar usuario',
             'tabla' => 'users',
             'registro_id' => $user->id,
-            'descripcion' => 'El administrador eliminó al usuario '.$user->name,
+            'descripcion' => 'Desactivó usuario '.$user->name,
             'ip' => request()->ip()
         ]);
 
-        $user->delete();
+        return back()->with('success', 'Usuario desactivado correctamente.');
+    }
 
-        return redirect()->route('admin.usuarios.index')
-            ->with('success', 'Usuario eliminado correctamente.');
+    // =========================
+    // HABILITAR USUARIO
+    // =========================
+    public function habilitar(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'estado' => 1
+        ]);
+
+        Bitacora::create([
+            'user_id' => Auth::id(),
+            'accion' => 'Habilitar usuario',
+            'tabla' => 'users',
+            'registro_id' => $user->id,
+            'descripcion' => 'Reactivó usuario '.$user->name,
+            'ip' => request()->ip()
+        ]);
+
+        return back()->with('success', 'Usuario habilitado correctamente.');
     }
 }

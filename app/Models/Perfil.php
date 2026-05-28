@@ -9,15 +9,17 @@ class Perfil extends Model
 {
     protected $table = 'perfil';
 
-    protected $fillable = [
-        'nombre',
-        'apellido',
-        'telefono',
-        'ubicacion',
-        'email',
-        'resumen_profesional',
-        'foto'
-    ];
+   protected $fillable = [
+
+    'nombre',
+    'email',
+    'apellido',
+    'telefono',
+    'ubicacion',
+    'resumen_profesional',
+    'foto',
+
+];
 
     public function habilidades()
 {
@@ -77,4 +79,5 @@ public function experiencias()
 {
     return $this->hasMany(Experiencia::class);
 }
+
 }

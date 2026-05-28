@@ -146,17 +146,6 @@
                         {{-- BOTONES --}}
                         <div class="flex flex-wrap gap-3 mt-6">
 
-                            {{-- VER --}}
-                            <a href="{{ route('oferta.show', $oferta->id) }}"
-                               class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700
-                                      rounded-lg text-sm font-medium transition">
-
-                                <i class="bi bi-eye mr-1"></i>
-
-                                Ver
-
-                            </a>
-
                             {{-- EDITAR --}}
                             <a href="{{ route('oferta.edit', $oferta->id) }}"
                                class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700
@@ -185,6 +174,16 @@
                                     Eliminar
 
                                 </button>
+                                {{-- PDF --}}
+<a href="{{ route('oferta.pdf', $oferta->id) }}"
+   class="px-4 py-2 bg-blue-600 hover:bg-blue-700
+          rounded-lg text-sm font-medium transition">
+
+    <i class="bi bi-file-earmark-pdf mr-1"></i>
+
+    PDF
+
+</a>
 
                             </form>
 

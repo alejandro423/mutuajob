@@ -45,7 +45,12 @@
                    class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-semibold">
                     Editar perfil
                 </a>
+<a href="{{ route('perfil.pdf') }}"
+   class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold transition">
 
+    Descargar todo el perfil en PDF
+
+</a>
                 <a href="{{ url('/') }}"
                    class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm">
                     Volver
@@ -122,7 +127,7 @@
 <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-xl">
 
     <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Idiomas</h2>
+        <h2 class="text-xl font-bold">Idiomas que hablo</h2>
 
         <a href="{{ route('perfil.idioma_create') }}"
            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-semibold transition">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Oferta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OfertaController extends Controller
 {
@@ -132,4 +133,17 @@ class OfertaController extends Controller
         return redirect()->route('oferta.index')
             ->with('success', 'Oferta eliminada correctamente');
     }
+    public function pdf(int $id)
+{
+    $oferta = Oferta::findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'oferta.pdf',
+        compact('oferta')
+    );
+
+    return $pdf->download(
+        'oferta_'.$oferta->id.'.pdf'
+    );
+}
 }

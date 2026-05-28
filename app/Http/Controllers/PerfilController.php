@@ -6,6 +6,7 @@ use App\Models\Perfil;
 use App\Models\Certificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PerfilController extends Controller
 {
@@ -49,4 +50,22 @@ class PerfilController extends Controller
         return redirect()->route('perfil.index')
             ->with('success', 'Perfil actualizado correctamente');
     }
+    public function pdf()
+{
+    $perfil = Perfil::with([
+        'habilidades',
+        'idiomas',
+        'certificaciones',
+        'experiencias'
+    ])
+    ->where('email', Auth::user()->email)
+    ->firstOrFail();
+
+    $pdf = Pdf::loadView(
+        'perfil.pdf',
+        compact('perfil')
+    );
+
+    return $pdf->download('mi_perfil.pdf');
+}
 }

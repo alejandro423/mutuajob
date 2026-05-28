@@ -13,6 +13,7 @@ use App\Http\Controllers\PerfilIdiomaController;
 use App\Http\Controllers\CertificacionController;
 use App\Http\Controllers\ExperienciaController;
 use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\PerfilUserController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -54,14 +55,42 @@ Route::get('/administrador/inicio', function () {
     return view('administrador.inicio');
 })->middleware(['auth', 'role:administrador']);
 #modulo de usuarios
-Route::get('/administrador/usuarios', function () {
-    return view('administrador.usuarios.index');
-})->middleware(['auth', 'role:administrador']);
 Route::middleware(['auth', 'role:administrador'])
+
     ->prefix('administrador')
+
     ->name('admin.')
+
     ->group(function () {
-        Route::resource('usuarios', UserController::class);
+
+        // LISTA USUARIOS
+        Route::get(
+            '/usuarios',
+            [UserController::class, 'index']
+        )->name('usuarios.index');
+
+        // PDF
+        Route::get(
+            '/usuarios/pdf',
+            [UserController::class, 'pdf']
+        )->name('usuarios.pdf');
+
+        // USUARIOS INACTIVOS
+        Route::get(
+            '/usuarios/inactivos',
+            [UserController::class, 'inactivos']
+        )->name('usuarios.inactivos');
+
+        // HABILITAR USUARIO
+        Route::put(
+            '/usuarios/{id}/habilitar',
+            [UserController::class, 'habilitar']
+        )->name('usuarios.habilitar');
+
+        // CRUD
+        Route::resource('usuarios', UserController::class)
+            ->except(['index']);
+
     });
 #modulo bitacora
 Route::middleware(['auth'])->group(function () {
@@ -79,6 +108,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil.edit');
     Route::put('/perfil/{id}', [PerfilController::class, 'update'])
         ->name('perfil.update');
+        Route::get(
+    '/perfil/pdf',
+    [PerfilController::class, 'pdf']
+)->name('perfil.pdf');
+});
 #perfil_habilidad
 Route::middleware(['auth'])->group(function () {
     Route::get('/habilidades', [HabilidadController::class, 'index'])
@@ -103,7 +137,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil_habilidad.update');
     Route::delete('/perfil-habilidad/{id}', [PerfilHabilidadController::class, 'destroy'])
         ->name('perfil_habilidad.destroy');
-});
 });
     #PERFIL_IDIOMAS
 Route::middleware(['auth'])->group(function () {
@@ -187,6 +220,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/oferta/{id}', [OfertaController::class, 'destroy'])
         ->name('oferta.destroy');
+        Route::get(
+    '/ofertas/{id}/pdf',
+    [OfertaController::class, 'pdf']
+)->name('oferta.pdf');
 
 });
 #idiomas
@@ -203,4 +240,18 @@ Route::middleware(['auth'])->group(function () {
         ->name('administrador.idiomas.update');
     Route::delete('/idiomas/{id}', [IdiomaController::class, 'destroy'])
         ->name('administrador.idiomas.destroy');
+});
+#perfiles user
+// PERFILES USER
+Route::middleware(['auth'])->group(function () {
+    Route::get('/perfiles_user', [PerfilUserController::class, 'index'])
+        ->name('administrador.perfiles_user.index');
+    Route::get('/perfil_user/{id}', [PerfilUserController::class, 'show'])
+        ->name('administrador.perfiles_user.show');
+    Route::get('/perfil_user/{id}/edit', [PerfilUserController::class, 'edit'])
+        ->name('administrador.perfiles_user.edit');
+    Route::put('/perfil_user/{id}', [PerfilUserController::class, 'update'])
+        ->name('administrador.perfiles_user.update');
+    Route::delete('/perfil_user/{id}', [PerfilUserController::class, 'destroy'])
+        ->name('administrador.perfiles_user.destroy');
 });

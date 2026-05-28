@@ -38,11 +38,21 @@
     Idiomas
 
 </a>
+
     <a href="{{ url('/administrador/bitacora') }}"
    class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
     <i class="bi bi-journal-text text-lg"></i>
     Bitácora
 </a>
+<a href="{{ route('administrador.perfiles_user.index') }}"
+   class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
+
+    <i class="bi bi-journal-text text-lg"></i>
+
+    perfiles de usuarios
+
+</a>
+
 </nav>
         </div>
 

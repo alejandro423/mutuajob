@@ -19,6 +19,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'remember_token',
+        'estado',
     ];
 
     protected $hidden = [
@@ -39,7 +40,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
-    public function hasRole($role)
+    public function hasRole(string $role)
     {
         return $this->roles()->where('nombre', $role)->exists();
     }
