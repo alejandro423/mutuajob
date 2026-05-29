@@ -17,6 +17,9 @@ return new class extends Migration
         $table->string('nombre');
         $table->string('institucion')->nullable();
         $table->text('descripcion')->nullable();
+        $table->date('fecha_obtencion')->nullable();
+        $table->date('fecha_expiracion')->nullable();
+        $table->string('evidencia')->nullable();
 
         $table->timestamps();
     });
