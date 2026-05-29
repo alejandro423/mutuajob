@@ -32,7 +32,27 @@ Route::get('/create', function () {
 Route::get('/cuenta', function () {
     return view('cuenta');
 })->middleware('auth');
+#version
+Route::get('/backend-version', function () {
+    return response()->json([
+        'app' => config('version.app_name'),
+        'backend_version' => config('version.backend_version'),
+        'environment' => app()->environment(),
+    ]);
+});
+Route::get('/backend/version', function () {
+    return response()->json([
+        'data' => [
+            'apiVersion' => config('version.backend_version'),
+            'framework' => 'Laravel',
+            'phpVersion' => PHP_VERSION,
+        ],
+        'message' => 'BACKEND DE MUTUAJOB',
+        'error' => null,
+        'responseCode' => 100
+    ], 200, [], JSON_PRETTY_PRINT);
 
+});
 #login insano
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

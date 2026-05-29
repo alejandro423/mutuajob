@@ -70,6 +70,13 @@
     <main class="flex-1 p-8">
         @yield('content')
     </main>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</script>
+<footer class="text-center text-xs text-zinc-500 py-4 border-t border-zinc-800">
+
+    © {{ config('version.app_name') }} {{ config('version.year') }}
+    | v{{ config('version.version') }}
+
+</footer>
 </body>
 </html>

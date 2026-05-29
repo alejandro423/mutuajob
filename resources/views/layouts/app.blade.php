@@ -14,7 +14,7 @@
 <body class="bg-black text-white min-h-screen flex flex-col justify-between">
 
     {{-- CONTENIDO --}}
-    <main class="flex-1 pb-24">
+    <main class="flex-1 pb-32">
         <style>
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -204,6 +204,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         </div>
 
     </nav>
+    @if(app()->environment('local'))
+    <div class="fixed top-2 right-3 text-xs text-zinc-200 bg-zinc-950/80 px-3 py-1 rounded-md border border-zinc-800 backdrop-blur">
 
+        MutuaJob v{{ config('version.version') }} | DEV
+
+    </div>
+@endif
 </body>
 </html>
