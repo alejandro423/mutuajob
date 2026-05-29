@@ -21,12 +21,7 @@
         class="mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-xl transition">
         Cerrar sesión
     </button>
-    @if(auth()->user()->roles->contains('nombre', 'administrador'))
-    <a href="{{ url('/administrador/inicio') }}"
-       class="block mt-4 bg-zinc-800 hover:bg-zinc-700 text-white font-medium py-3 rounded-xl text-center transition">
-        Vista administrador
-    </a>
-@endif
+    
 </form>
     </div>
 </div>

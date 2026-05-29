@@ -148,4 +148,28 @@ class PerfilController extends Controller
 
         return $pdf->download('mi_perfil.pdf');
     }
+    public function toggleEstado(int $id)
+{
+    $perfil = Perfil::findOrFail($id);
+
+    // SEGURIDAD
+    if ($perfil->user_id != Auth::id()) {
+
+        return back()->with('error', 'No autorizado');
+
+    }
+
+    $perfil->update([
+
+        'estado' => !$perfil->estado
+
+    ]);
+
+    return back()->with(
+        'success',
+        $perfil->estado
+            ? 'Perfil habilitado'
+            : 'Perfil deshabilitado'
+    );
+}
 }

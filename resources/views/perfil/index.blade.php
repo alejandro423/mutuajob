@@ -10,7 +10,54 @@
 
            {{-- HEADER PERFIL --}}
 <div class="border-b border-zinc-800 pb-6 mb-6">
+{{-- ESTADO PERFIL --}}
+<div class="flex items-center justify-between bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 mt-4">
 
+    <div>
+
+        <p class="text-sm text-zinc-400">
+            Estado del perfil
+        </p>
+
+        <p class="text-sm font-semibold">
+
+            @if($perfil->estado)
+
+                <span class="text-green-400">
+                    Habilitado
+                </span>
+
+            @else
+
+                <span class="text-red-400">
+                    Deshabilitado
+                </span>
+
+            @endif
+
+        </p>
+
+    </div>
+
+    <form action="{{ route('perfil.toggleEstado', $perfil->id) }}"
+          method="POST">
+
+        @csrf
+        @method('PUT')
+
+        <button type="submit"
+                class="relative inline-flex h-7 w-14 items-center rounded-full transition
+                {{ $perfil->estado ? 'bg-green-600' : 'bg-zinc-600' }}">
+
+            <span class="inline-block h-5 w-5 transform rounded-full bg-white transition
+            {{ $perfil->estado ? 'translate-x-8' : 'translate-x-1' }}">
+            </span>
+
+        </button>
+
+    </form>
+
+</div>
     <div class="flex flex-col md:flex-row items-center md:items-start gap-5">
 
         {{-- FOTO --}}

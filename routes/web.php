@@ -214,7 +214,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil.certificacion_store');
     Route::delete('/perfil/certificacion/{id}', [CertificacionController::class, 'destroy'])
         ->name('perfil.certificacion_destroy');
-
+    Route::put(
+    '/perfil/{id}/estado',
+    [PerfilController::class, 'toggleEstado']
+)->name('perfil.toggleEstado');
 });
 #experiencias
 Route::middleware(['auth'])->group(function () {

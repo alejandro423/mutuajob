@@ -80,65 +80,88 @@ input[type="date"]::-webkit-calendar-picker-indicator {
             </a>
 
             {{-- BOTON CENTRAL --}}
-            <div class="flex flex-col items-center">
+<div class="flex flex-col items-center">
 
-                @php($user = Auth::user())
+    @php($user = Auth::user())
 
-                {{-- TRABAJADOR --}}
-                @if($user && $user->roles->contains('nombre', 'trabajador'))
+    {{-- ADMIN --}}
+    @if($user && $user->roles->contains('nombre', 'administrador'))
 
-                    <a href="{{ url('/perfil') }}"
-                       class="flex flex-col items-center">
+        <a href="{{ url('/administrador/inicio') }}"
+           class="flex flex-col items-center">
 
-                        <div class="relative -mt-8
-                            {{ request()->is('perfil') 
-                                ? 'bg-red-600 shadow-lg shadow-red-900/40' 
-                                : 'bg-zinc-800' }}
-                            hover:bg-red-700
-                            w-14 h-14 rounded-2xl flex items-center justify-center transition">
+            <div class="relative -mt-8
+                {{ request()->is('administrador/*') 
+                    ? 'bg-red-600 shadow-lg shadow-red-900/40' 
+                    : 'bg-zinc-800' }}
+                hover:bg-red-700
+                w-14 h-14 rounded-2xl flex items-center justify-center transition">
 
-                            <i class="bi bi-file-earmark-text text-2xl text-white"></i>
-
-                        </div>
-
-                        <span class="text-xs mt-1 font-medium
-                            {{ request()->is('perfil') ? 'text-white' : 'text-zinc-400' }}">
-
-                            Perfil
-
-                        </span>
-
-                    </a>
-
-                {{-- EMPLEADOR --}}
-                @elseif($user && $user->roles->contains('nombre', 'empleador'))
-
-                    <a href="{{ url('/oferta') }}"
-                       class="flex flex-col items-center">
-
-                        <div class="relative -mt-8
-                            {{ request()->is('ofertas') 
-                                ? 'bg-blue-600 shadow-lg shadow-blue-900/40' 
-                                : 'bg-zinc-800' }}
-                            hover:bg-blue-700
-                            w-14 h-14 rounded-2xl flex items-center justify-center transition">
-
-                            <i class="bi bi-briefcase text-2xl text-white"></i>
-
-                        </div>
-
-                        <span class="text-xs mt-1 font-medium
-                            {{ request()->is('oferta') ? 'text-white' : 'text-zinc-400' }}">
-
-                            Ofertas
-
-                        </span>
-
-                    </a>
-
-                @endif
-
+                <i class="bi bi-shield-lock text-2xl text-white"></i>
             </div>
+
+            <span class="text-xs mt-1 font-medium
+                {{ request()->is('administrador/*') ? 'text-white' : 'text-zinc-400' }}">
+
+                Admin
+
+            </span>
+
+        </a>
+
+    {{-- TRABAJADOR --}}
+    @elseif($user && $user->roles->contains('nombre', 'trabajador'))
+
+        <a href="{{ url('/perfil') }}"
+           class="flex flex-col items-center">
+
+            <div class="relative -mt-8
+                {{ request()->is('perfil') 
+                    ? 'bg-red-600 shadow-lg shadow-red-900/40' 
+                    : 'bg-zinc-800' }}
+                hover:bg-red-700
+                w-14 h-14 rounded-2xl flex items-center justify-center transition">
+
+                <i class="bi bi-file-earmark-text text-2xl text-white"></i>
+            </div>
+
+            <span class="text-xs mt-1 font-medium
+                {{ request()->is('perfil') ? 'text-white' : 'text-zinc-400' }}">
+
+                Perfil
+
+            </span>
+
+        </a>
+
+    {{-- EMPLEADOR --}}
+    @elseif($user && $user->roles->contains('nombre', 'empleador'))
+
+        <a href="{{ url('/oferta') }}"
+           class="flex flex-col items-center">
+
+            <div class="relative -mt-8
+                {{ request()->is('ofertas') 
+                    ? 'bg-blue-600 shadow-lg shadow-blue-900/40' 
+                    : 'bg-zinc-800' }}
+                hover:bg-blue-700
+                w-14 h-14 rounded-2xl flex items-center justify-center transition">
+
+                <i class="bi bi-briefcase text-2xl text-white"></i>
+            </div>
+
+            <span class="text-xs mt-1 font-medium
+                {{ request()->is('oferta') ? 'text-white' : 'text-zinc-400' }}">
+
+                Ofertas
+
+            </span>
+
+        </a>
+
+    @endif
+
+</div>
 
             {{-- AVISOS --}}
             <a href="{{ url('/avisos') }}"
