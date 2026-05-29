@@ -64,9 +64,10 @@ class AuthController extends Controller
      // Crear perfil automáticamente si es trabajador
     if ($request->role === 'trabajador') {
         Perfil::create([
-            'nombre' => $request->name,
-            'email' => $request->email,
-        ]);
+    'user_id' => $user->id,
+    'nombre' => $request->name,
+    'email' => $request->email,
+]);
     }
 
     Auth::login($user);
