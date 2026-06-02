@@ -370,31 +370,30 @@
 
                 <div class="bg-zinc-800 p-5 rounded-2xl border border-zinc-700">
 
-                    <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                         {{-- INFORMACION --}}
-                        <div class="flex-1 space-y-3">
+                        <div class="lg:col-span-2 space-y-4">
 
                             {{-- NOMBRE --}}
                             <div>
 
-                                <p class="text-lg font-bold text-white">
+                                <h3 class="text-lg font-bold text-white">
                                     {{ $certificacion->nombre }}
-                                </p>
+                                </h3>
 
-                                <p class="text-sm text-zinc-400">
+                                <p class="text-zinc-400">
                                     {{ $certificacion->institucion ?? 'Institución desconocida' }}
                                 </p>
 
                             </div>
 
-                            {{-- DETALLES --}}
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            {{-- FECHAS --}}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                                {{-- FECHA OBTENCION --}}
                                 <div>
 
-                                    <p class="text-zinc-500">
+                                    <p class="text-zinc-500 text-sm">
                                         Fecha de obtención
                                     </p>
 
@@ -404,17 +403,14 @@
 
                                 </div>
 
-                                {{-- FECHA EXPIRACION --}}
                                 <div>
 
-                                    <p class="text-zinc-500">
+                                    <p class="text-zinc-500 text-sm">
                                         Fecha de expiración
                                     </p>
 
                                     <p class="text-white">
-
                                         {{ $certificacion->fecha_expiracion ?? 'No expira' }}
-
                                     </p>
 
                                 </div>
@@ -422,36 +418,17 @@
                             </div>
 
                             {{-- DESCRIPCION --}}
-                            <div>
-
-                                <p class="text-zinc-500 text-sm mb-1">
-                                    Descripción
-                                </p>
-
-                                <p class="text-zinc-300 leading-relaxed text-sm">
-
-                                    {{ $certificacion->descripcion ?? 'Sin descripción' }}
-
-                                </p>
-
-                            </div>
-
-                            {{-- EVIDENCIA --}}
-                            @if($certificacion->evidencia)
+                            @if($certificacion->descripcion)
 
                                 <div>
 
-                                    <p class="text-zinc-500 text-sm mb-2">
-                                        Evidencia
+                                    <p class="text-zinc-500 text-sm mb-1">
+                                        Descripción
                                     </p>
 
-                                    <a href="{{ asset('storage/' . $certificacion->evidencia) }}"
-                                       target="_blank"
-                                       class="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition">
-
-                                        Ver certificado
-
-                                    </a>
+                                    <p class="text-zinc-300 leading-relaxed">
+                                        {{ $certificacion->descripcion }}
+                                    </p>
 
                                 </div>
 
@@ -459,35 +436,63 @@
 
                         </div>
 
- {{-- BOTONES --}}
-<div class="flex gap-2">
+                        {{-- COLUMNA DERECHA --}}
+                        <div class="flex flex-col items-center justify-between gap-4">
 
-    {{-- EDITAR --}}
-    <a href="{{ route('perfil.certificacion_edit', $certificacion->id) }}"
-       class="h-10 px-4 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition flex items-center justify-center">
+                            {{-- EVIDENCIA --}}
+                            @if($certificacion->evidencia)
 
-        Editar
+                                <a href="{{ asset('storage/' . $certificacion->evidencia) }}"
+                                   target="_blank">
 
-    </a>
+                                    <img
+                                        src="{{ asset('storage/' . $certificacion->evidencia) }}"
+                                        alt="Evidencia"
+                                        class="w-52 h-36 object-cover rounded-xl border border-zinc-700 hover:scale-105 transition"
+                                    >
 
-    {{-- ELIMINAR --}}
-    <form action="{{ route('perfil.certificacion_destroy', $certificacion->id) }}"
-          method="POST"
-          onsubmit="return confirm('¿Eliminar esta certificación del perfil?')">
+                                </a>
 
-        @csrf
-        @method('DELETE')
+                            @else
 
-        <button type="submit"
-                class="h-10 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition flex items-center justify-center">
+                                <div class="w-52 h-36 rounded-xl border border-dashed border-zinc-700 flex items-center justify-center text-zinc-500 text-sm">
 
-            Eliminar
+                                    Sin evidencia
 
-        </button>
+                                </div>
 
-    </form>
+                            @endif
 
-</div>
+                            {{-- BOTONES --}}
+                            <div class="flex gap-2">
+
+                                <a href="{{ route('perfil.certificacion_edit', $certificacion->id) }}"
+                                   class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 rounded-lg text-sm transition">
+
+                                    Editar
+
+                                </a>
+
+                                <form action="{{ route('perfil.certificacion_destroy', $certificacion->id) }}"
+                                      method="POST"
+                                      onsubmit="return confirm('¿Eliminar esta certificación del perfil?')">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition">
+
+                                        Eliminar
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>

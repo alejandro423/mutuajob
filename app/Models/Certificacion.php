@@ -8,11 +8,14 @@ class Certificacion extends Model
 {
     protected $table = 'certificaciones';
 
-    protected $fillable = [
-        'nombre',
-        'institucion',
-        'descripcion'
-    ];
+   protected $fillable = [
+    'nombre',
+    'institucion',
+    'descripcion',
+    'fecha_obtencion',
+    'fecha_expiracion',
+    'evidencia'
+];
 
     public function perfiles()
     {

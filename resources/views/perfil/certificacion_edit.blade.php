@@ -145,11 +145,11 @@
                 </label>
 
                 <input
-                    type="file"
-                    name="evidencia"
-                    accept=".jpg,.jpeg,.png,.webp,.pdf"
-                    class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-400 file:bg-red-600 file:border-0 file:text-white file:px-4 file:py-2 file:rounded-lg"
-                >
+        type="file"
+        name="evidencia"
+        accept="image/*"
+        class="w-full bg-zinc-950 border border-zinc-700 rounded-xl px-4 py-3 text-zinc-400 file:bg-red-600 file:border-0 file:text-white file:px-4 file:py-2 file:rounded-lg"
+    >
 
                 @if($certificacion->evidencia)
 
