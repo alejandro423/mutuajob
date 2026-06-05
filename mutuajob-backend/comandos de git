@@ -1,0 +1,12 @@
+git checkout develop
+git checkout -b feature/navbar-admin
+
+git add .
+git commit -m "feat: agregar botón admin en navbar"
+
+git checkout develop
+git merge feature/navbar-admin
+
+git checkout main
+git merge develop
+

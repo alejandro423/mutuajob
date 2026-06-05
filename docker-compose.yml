@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: ./mutuajob-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./mutuajob-backend:/var/www
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_DATABASE: mutuajob
+      DB_USERNAME: root
+      DB_PASSWORD: root
+
+  frontend:
+    build: ./mutuajob-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: mutuajob
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
