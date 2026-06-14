@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Role;
 use App\Models\Oferta;
 use App\Models\Perfil;
 use Illuminate\Support\Facades\Auth;
@@ -10,22 +12,23 @@ class HomeController extends Controller
 {
     public function index()
 {
-    $user = Auth::user();
+    /** @var \App\Models\User|null $user */
+$user = Auth::user();
 
     $ofertas = collect();
     $perfiles = collect();
 
-    if ($user && $user->roles()->where('nombre', 'trabajador')->exists()) {
+    if ($user && $user->hasRole('trabajador')) {
 
         $ofertas = Oferta::where('estado', 1)->latest()->get();
     }
 
-    if ($user && $user->roles()->where('nombre', 'empleador')->exists()) {
+    if ($user && $user->hasRole('empleador')) {
 
         $perfiles = Perfil::where('estado', 1)->latest()->get();
     }
 
-    if ($user && $user->roles()->where('nombre', 'administrador')->exists()) {
+    if ($user && $user->hasRole('administrador')) {
 
         $ofertas = Oferta::latest()->get();
         $perfiles = Perfil::latest()->get();
@@ -33,7 +36,7 @@ class HomeController extends Controller
 
     return view('inicio', compact('ofertas', 'perfiles'));
 }
-public function candidatos($id)
+public function candidatos(int $id)
 {
     $oferta = Oferta::findOrFail($id);
 

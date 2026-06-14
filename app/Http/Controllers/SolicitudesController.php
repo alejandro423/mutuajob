@@ -18,6 +18,7 @@ class SolicitudesController extends Controller
         return redirect('/login');
     }
 
+    /** @var \App\Models\User $user */
     $user = Auth::user();
 
     // 🔵 TRABAJADOR
@@ -98,7 +99,7 @@ class SolicitudesController extends Controller
 public function invitar(int $perfilId, int $ofertaId)
 {
     $oferta = Oferta::where('id', $ofertaId)
-        ->where('user_id', auth()->id())
+        ->where('user_id', Auth::id())
         ->firstOrFail();
 
     $existe = Solicitudes::where('perfil_id', $perfilId)
@@ -119,7 +120,7 @@ public function invitar(int $perfilId, int $ofertaId)
 
     return back()->with('success', 'Invitación enviada.');
 }
-public function cambiarEstado(Request $request, $id)
+public function cambiarEstado(Request $request, int $id)
 {
     $solicitud = Solicitudes::findOrFail($id);
 
