@@ -29,14 +29,13 @@ class Oferta extends Model
         'fecha_limite' => 'date',
     ];
 
-    /*
-    |--------------------------------------------------------------------------
-    | RELACIONES
-    |--------------------------------------------------------------------------
-    */
-
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+    public function solicitudes()
+{
+    return $this->hasMany(Solicitudes::class);
+}
+
 }

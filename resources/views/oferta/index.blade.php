@@ -17,6 +17,7 @@
                 <p class="text-zinc-400 mt-2">
                     Administra todas tus publicaciones de trabajo
                 </p>
+                
             </div>
 
             <a href="{{ route('oferta.create') }}"
@@ -30,7 +31,41 @@
             </a>
 
         </div>
+<form method="GET" action="{{ route('oferta.index') }}"
+      class="flex flex-col md:flex-row gap-3 mb-6">
 
+    {{-- BUSCAR POR TITULO --}}
+    <input type="text"
+           name="search"
+           value="{{ request('search') }}"
+           placeholder="Buscar por título..."
+           class="w-full md:w-1/2 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white">
+
+    {{-- FILTRO FECHA --}}
+    <select name="date"
+        class="w-full md:w-1/4 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-700 text-white">
+
+    <option value="">Todo el tiempo</option>
+
+    <option value="today" {{ request('date') == 'today' ? 'selected' : '' }}>
+        Hoy
+    </option>
+
+    <option value="week" {{ request('date') == 'week' ? 'selected' : '' }}>
+        Esta semana
+    </option>
+
+    <option value="month" {{ request('date') == 'month' ? 'selected' : '' }}>
+        Este mes
+    </option>
+
+</select>
+
+    <button class="bg-blue-600 px-6 py-3 rounded-xl font-semibold">
+        Buscar
+    </button>
+
+</form>
         {{-- LISTA --}}
         @if($ofertas->count())
 

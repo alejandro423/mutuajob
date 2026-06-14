@@ -10,18 +10,44 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class OfertaController extends Controller
 {
     // LISTAR OFERTAS DEL USUARIO LOGUEADO
-    public function index()
-    {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
-
-        $ofertas = Oferta::where('user_id', Auth::id())
-            ->latest()
-            ->get();
-
-        return view('oferta.index', compact('ofertas'));
+    public function index(Request $request)
+{
+    if (!Auth::check()) {
+        return redirect('/login');
     }
+
+    $query = Oferta::where('user_id', Auth::id());
+
+    $filtro = $request->get('filtro', 'todo');
+
+    switch ($filtro) {
+
+        case 'hoy':
+            $query->whereDate('created_at', now()->toDateString());
+            break;
+
+        case 'semana':
+            $query->whereBetween('created_at', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ]);
+            break;
+
+        case 'mes':
+            $query->whereMonth('created_at', now()->month)
+                  ->whereYear('created_at', now()->year);
+            break;
+
+        case 'todo':
+        default:
+            // sin filtros
+            break;
+    }
+
+    $ofertas = $query->latest()->get();
+
+    return view('oferta.index', compact('ofertas', 'filtro'));
+}
 
     // MOSTRAR FORMULARIO CREAR
     public function create()

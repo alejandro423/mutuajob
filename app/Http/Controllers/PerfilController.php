@@ -172,4 +172,5 @@ class PerfilController extends Controller
             : 'Perfil deshabilitado'
     );
 }
+
 }

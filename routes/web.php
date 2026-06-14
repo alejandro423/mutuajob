@@ -14,6 +14,8 @@ use App\Http\Controllers\CertificacionController;
 use App\Http\Controllers\ExperienciaController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\PerfilUserController;
+use App\Http\Controllers\SolicitudesController;
+use App\Http\Controllers\HomeController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -297,7 +299,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('administrador.idiomas.destroy');
 });
 #perfiles user
-// PERFILES USER
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfiles_user', [PerfilUserController::class, 'index'])
         ->name('administrador.perfiles_user.index');
@@ -310,3 +311,17 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/perfil_user/{id}', [PerfilUserController::class, 'destroy'])
         ->name('administrador.perfiles_user.destroy');
 });
+#inicios
+Route::get('/inicio', [HomeController::class, 'index'])->name('inicio');
+Route::get('/oferta/{id}/candidatos', [OfertaController::class, 'candidatos']);
+# SOLICITUDES
+Route::middleware(['auth'])->group(function () {
+    Route::get('/solicitudes', [SolicitudesController::class, 'index'])
+    ->name('solicitudes.index');
+Route::post('/oferta/{ofertaId}/postular', [SolicitudesController::class, 'postular'])
+    ->name('solicitudes.postular');
+Route::post('/oferta/{ofertaId}/invitar/{perfilId}', [SolicitudesController::class, 'invitar'])
+    ->name('solicitudes.invitar');
+    Route::post('/solicitud/{id}/estado', [SolicitudesController::class, 'cambiarEstado'])
+    ->name('solicitud.estado');
+    });

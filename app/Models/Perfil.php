@@ -12,63 +12,31 @@ class Perfil extends Model
     protected $fillable = [
 
         'user_id',
-
         'nombre',
-
         'apellido',
-
         'dni',
-
         'fecha_nacimiento',
-
         'sexo',
-
         'foto',
-
         'telefono',
-
         'ubicacion',
-
         'email',
-
         'profesion',
-
         'resumen_profesional',
-
         'cv',
-
         'linkedin',
-
         'github',
-
         'portafolio',
-
         'disponibilidad',
-
         'modalidad',
-
         'salario_esperado',
-
         'estado',
-
     ];
-
-    /*
-    |--------------------------------------------------------------------------
-    | RELACION USER
-    |--------------------------------------------------------------------------
-    */
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | HABILIDADES
-    |--------------------------------------------------------------------------
-    */
 
     public function habilidades()
     {
@@ -81,11 +49,6 @@ class Perfil extends Model
          ->withTimestamps();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | IDIOMAS
-    |--------------------------------------------------------------------------
-    */
 
     public function idiomas()
     {
@@ -98,11 +61,6 @@ class Perfil extends Model
          ->withTimestamps();
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | CERTIFICACIONES
-    |--------------------------------------------------------------------------
-    */
 
     public function certificaciones()
     {
@@ -114,22 +72,10 @@ class Perfil extends Model
         );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | EXPERIENCIAS
-    |--------------------------------------------------------------------------
-    */
-
     public function experiencias()
     {
         return $this->hasMany(Experiencia::class);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | METODOS PERSONALIZADOS
-    |--------------------------------------------------------------------------
-    */
 
     public static function listar()
     {
@@ -155,4 +101,8 @@ class Perfil extends Model
     {
         return $this->delete();
     }
+    public function solicitudes()
+{
+    return $this->hasMany(Solicitudes::class);
+}
 }
