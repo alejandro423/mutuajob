@@ -10,21 +10,21 @@ class PerfilSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::where('name', 'trabajador')->first();
+        $trabajadores = User::whereHas('roles', function ($query) {
+            $query->where('nombre', 'trabajador');
+        })->get();
 
-        if ($user) {
+        foreach ($trabajadores as $user) {
 
-            Perfil::create([
-                'user_id' => $user->id,
-                'nombre' => 'trabajador',
-                'apellido' => null,
-                'foto' => null,
-                'telefono' => null,
-                'ubicacion' => null,
-                'email' => 'trabajador@gmail.com',
-                'resumen_profesional' => null,
-            ]);
-
+            Perfil::firstOrCreate(
+                [
+                    'user_id' => $user->id,
+                ],
+                [
+                    'nombre' => $user->name,
+                    'email' => $user->email,
+                ]
+            );
         }
     }
 }
