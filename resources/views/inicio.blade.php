@@ -224,15 +224,27 @@
 </div>
 
 @endif
+<div class="mt-6 flex gap-3 flex-col md:flex-row">
 
-        <form action="{{ route('solicitudes.invitar', [$perfil->id, 1]) }}" method="POST">
-            @csrf
-            <button class="mt-6 w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition">
-                Invitar
-            </button>
-        </form>
+    <a href="{{ route('perfil.show', $perfil->id) }}"
+       class="flex-1 py-3 bg-zinc-700 hover:bg-zinc-600 rounded-xl text-center transition">
+        Ver perfil
+    </a>
 
-    </div>
+    <form action="{{ route('solicitudes.invitar', [$perfil->id, 1]) }}"
+          method="POST"
+          class="flex-1">
+
+        @csrf
+
+        <button type="submit"
+                class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition">
+            Invitar
+        </button>
+
+    </form>
+
+</div>
 
 </section>
 

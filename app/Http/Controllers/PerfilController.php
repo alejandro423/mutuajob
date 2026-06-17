@@ -172,5 +172,15 @@ class PerfilController extends Controller
             : 'Perfil deshabilitado'
     );
 }
+public function show(int $id)
+{
+    $perfil = Perfil::with([
+        'habilidades',
+        'idiomas',
+        'certificaciones',
+        'experiencias'
+    ])->findOrFail($id);
 
+    return view('perfil.show', compact('perfil'));
+}
 }
