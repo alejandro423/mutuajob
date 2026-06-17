@@ -24,6 +24,12 @@ class HabilidadSeeder extends Seeder
             ['nombre' => 'Soporte Técnico'],
         ];
 
-        Habilidad::insert($habilidades);
+        foreach ($habilidades as $habilidad) {
+
+            Habilidad::create([
+                'nombre' => $habilidad['nombre']
+            ]);
+
+        }
     }
 }

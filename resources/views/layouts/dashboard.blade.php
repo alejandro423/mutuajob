@@ -35,10 +35,17 @@
 
     <i class="bi bi-translate text-lg"></i>
 
-    Idiomas
+    Catalogo de Idiomas
 
 </a>
+<a href="{{ url('habilidades') }}"
+   class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
 
+    <i class="bi bi-lightbulb text-lg"></i>
+
+    Catalogo de habilidades
+
+</a>
     <a href="{{ url('/administrador/bitacora') }}"
    class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
     <i class="bi bi-journal-text text-lg"></i>

@@ -7,48 +7,65 @@ use Illuminate\Http\Request;
 
 class HabilidadController extends Controller
 {
-    // LISTAR CATALOGO
+    // LISTAR HABILIDADES
     public function index()
-    {
-        $habilidades = Habilidad::all();
-        return view('habilidades.index', compact('habilidades'));
-    }
-
-    // FORM CREAR (CATALOGO)
-    public function create()
-    {
-        $habilidades = Habilidad::all();
-        return view('perfil.habilidad_create', compact('habilidades')); 
-        
-    }
-
-    // GUARDAR CATALOGO
-    public function store(Request $request)
 {
-    $validated = $request->validate([
-        'nombre' => 'required|string|max:255'
-    ]);
+    $habilidades = Habilidad::orderBy('id', 'desc')
+        ->paginate(10);
 
-    $habilidadExistente = Habilidad::where('nombre', $validated['nombre'])->first();
-
-    if ($habilidadExistente) {
-
-        return back()->with('error', 'Esta habilidad ya existe.');
-    }
-
-    Habilidad::create([
-        'nombre' => $validated['nombre']
-    ]);
-
-    return redirect()->route('habilidades.index')
-        ->with('success', 'Habilidad creada correctamente');
+    return view(
+        'administrador.habilidades.index',
+        compact('habilidades')
+    );
 }
 
-    // EDITAR
+    // FORMULARIO CREAR
+    public function create()
+    {
+        return view('administrador.habilidades.create');
+    }
+
+    // GUARDAR
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255'
+        ]);
+
+        $habilidadExistente = Habilidad::where(
+            'nombre',
+            $validated['nombre']
+        )->first();
+
+        if ($habilidadExistente) {
+
+            return back()->with(
+                'error',
+                'Esta habilidad ya existe.'
+            );
+        }
+
+        Habilidad::create([
+            'nombre' => $validated['nombre']
+        ]);
+
+        return redirect()
+            ->route('administrador.habilidades.index')
+            ->with(
+                'success',
+                'Habilidad creada correctamente'
+            );
+    }
+
+    // FORMULARIO EDITAR
     public function edit(int $id)
     {
         $habilidad = Habilidad::findOrFail($id);
-        return view('perfil.habilidad_edit', compact('habilidad'));
+
+        return view(
+            'administrador.habilidades.edit',
+            compact('habilidad')
+        );
     }
 
     // ACTUALIZAR
@@ -60,18 +77,30 @@ class HabilidadController extends Controller
             'nombre' => 'required|string|max:255'
         ]);
 
-        $habilidad->update($request->only('nombre'));
+        $habilidad->update([
+            'nombre' => $request->nombre
+        ]);
 
-        return redirect()->route('habilidades.index')
-            ->with('success', 'Habilidad actualizada');
+        return redirect()
+            ->route('administrador.habilidades.index')
+            ->with(
+                'success',
+                'Habilidad actualizada correctamente'
+            );
     }
 
     // ELIMINAR
     public function destroy(int $id)
     {
-        Habilidad::findOrFail($id)->delete();
+        $habilidad = Habilidad::findOrFail($id);
 
-        return redirect()->route('habilidades.index')
-            ->with('success', 'Habilidad eliminada');
+        $habilidad->delete();
+
+        return redirect()
+            ->route('administrador.habilidades.index')
+            ->with(
+                'success',
+                'Habilidad eliminada correctamente'
+            );
     }
 }

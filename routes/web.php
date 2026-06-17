@@ -298,6 +298,27 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/idiomas/{id}', [IdiomaController::class, 'destroy'])
         ->name('administrador.idiomas.destroy');
 });
+// HABILIDADES
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/habilidades', [HabilidadController::class, 'index'])
+        ->name('administrador.habilidades.index');
+
+    Route::get('/habilidades/create', [HabilidadController::class, 'create'])
+        ->name('administrador.habilidades.create');
+
+    Route::post('/habilidades', [HabilidadController::class, 'store'])
+        ->name('administrador.habilidades.store');
+
+    Route::get('/habilidades/{id}/edit', [HabilidadController::class, 'edit'])
+        ->name('administrador.habilidades.edit');
+
+    Route::put('/habilidades/{id}', [HabilidadController::class, 'update'])
+        ->name('administrador.habilidades.update');
+
+    Route::delete('/habilidades/{id}', [HabilidadController::class, 'destroy'])
+        ->name('administrador.habilidades.destroy');
+});
 #perfiles user
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfiles_user', [PerfilUserController::class, 'index'])
