@@ -5,7 +5,6 @@
 <div class="h-[calc(100vh-96px)] overflow-y-scroll snap-y snap-mandatory">
 
 {{-- 🔵 OFERTAS (TRABAJADOR) --}}
-@if(isset($ofertas) && $ofertas->count())
 
     @forelse($ofertas as $oferta)
 
@@ -79,17 +78,41 @@
         </div>
     @endforelse
 
-@endif
+
 
 
 {{-- 🟢 PERFILES (EMPLEADOR) --}}
-@if(isset($perfiles) && $perfiles->count())
 
     @forelse($perfiles as $perfil)
 
         <section class="h-[calc(100vh-96px)] snap-start flex items-center justify-center px-6">
 
     <div class="w-full max-w-xl bg-zinc-900 border border-zinc-800 rounded-2xl p-7 shadow-lg">
+
+        <div class="flex items-center gap-4 mb-4">
+
+    {{-- FOTO --}}
+    <div class="w-24 h-24 rounded-full overflow-hidden bg-zinc-700 shrink-0">
+
+        @if($perfil->foto)
+
+            <img src="{{ asset('storage/' . $perfil->foto) }}"
+                 alt="Foto de perfil"
+                 class="w-full h-full object-cover">
+
+        @else
+
+            <div class="w-full h-full flex items-center justify-center text-2xl font-bold text-white">
+
+                {{ strtoupper(substr($perfil->nombre ?? 'U', 0, 1)) }}
+
+            </div>
+
+        @endif
+
+    </div>
+
+    <div>
 
         <h1 class="text-2xl font-bold text-white">
             {{ $perfil->nombre }} {{ $perfil->apellido }}
@@ -99,19 +122,108 @@
             {{ $perfil->profesion }}
         </p>
 
+    </div>
+
+</div>
+
         <div class="mt-4 space-y-1 text-sm text-zinc-400">
 
-            <p>📍 {{ $perfil->ubicacion }}</p>
-            <p>📧 {{ $perfil->email }}</p>
-            <p>📞 {{ $perfil->telefono }}</p>
-            <p>🆔 DNI: {{ $perfil->dni }}</p>
-            <p>👤 {{ $perfil->sexo }}</p>
+            <p> {{ $perfil->ubicacion }}</p>
+            <p> {{ $perfil->email }}</p>
+            <p> {{ $perfil->telefono }}</p>
+            <p> DNI: {{ $perfil->dni }}</p>
+            <p> {{ $perfil->sexo }}</p>
 
         </div>
 
-        <p class="text-zinc-300 mt-4 text-sm leading-relaxed">
-            {{ $perfil->resumen_profesional }}
+       <p class="text-zinc-300 mt-4 text-sm leading-relaxed">
+    {{ $perfil->resumen_profesional }}
+</p>
+
+{{-- HABILIDADES --}}
+@if($perfil->habilidades->count())
+
+<div class="mt-4">
+
+    <h3 class="text-white font-semibold mb-2">
+        Habilidades
+    </h3>
+
+    <div class="flex flex-wrap gap-2">
+
+        @foreach($perfil->habilidades as $habilidad)
+
+            <span class="bg-zinc-800 px-3 py-1 rounded-full text-sm text-zinc-300">
+
+                {{ $habilidad->nombre }}
+                ({{ $habilidad->pivot->nivel }}/5)
+
+            </span>
+
+        @endforeach
+
+    </div>
+
+</div>
+
+@endif
+
+{{-- IDIOMAS --}}
+@if($perfil->idiomas->count())
+
+<div class="mt-4">
+
+    <h3 class="text-white font-semibold mb-2">
+        Idiomas
+    </h3>
+
+    @foreach($perfil->idiomas as $idioma)
+
+        <p class="text-zinc-300 text-sm">
+
+            {{ $idioma->nombre }}
+            (Nivel {{ $idioma->pivot->nivel }}/5)
+
         </p>
+
+    @endforeach
+
+</div>
+
+@endif
+
+{{-- EXPERIENCIA --}}
+@if($perfil->experiencias->count())
+
+<div class="mt-4">
+
+    <h3 class="text-white font-semibold mb-2">
+        Experiencia Laboral
+    </h3>
+
+    @foreach($perfil->experiencias as $experiencia)
+
+        <div class="mb-2">
+
+            <p class="text-white">
+
+                {{ $experiencia->cargo }}
+
+            </p>
+
+            <p class="text-zinc-400 text-sm">
+
+                {{ $experiencia->empresa }}
+
+            </p>
+
+        </div>
+
+    @endforeach
+
+</div>
+
+@endif
 
         <form action="{{ route('solicitudes.invitar', [$perfil->id, 1]) }}" method="POST">
             @csrf
@@ -132,7 +244,6 @@
         </div>
     @endforelse
 
-@endif
 
 </div>
 

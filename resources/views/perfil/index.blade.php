@@ -80,7 +80,7 @@
             @endif
 
         </div>
-
+<p>{{ $perfil->foto }}</p>
         {{-- NOMBRE --}}
         <div class="flex-1 text-center md:text-left">
 
