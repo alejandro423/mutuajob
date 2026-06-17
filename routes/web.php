@@ -312,10 +312,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('administrador.perfiles_user.destroy');
 });
 #inicios
-Route::get('/inicio', [HomeController::class, 'index'])->name('inicio');
-Route::get('/oferta/{id}/candidatos', [OfertaController::class, 'candidatos']);
-Route::get('/perfil/{id}', [PerfilController::class, 'show'])
-    ->name('perfil.show');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/inicio', [HomeController::class, 'index'])->name('inicio');
+    Route::get('/oferta/{id}/candidatos', [OfertaController::class, 'candidatos']);
+    Route::get('/perfil/{id}', [PerfilController::class, 'show'])
+        ->name('perfil.show');
+});
 # SOLICITUDES
 Route::middleware(['auth'])->group(function () {
     Route::get('/solicitudes', [SolicitudesController::class, 'index'])

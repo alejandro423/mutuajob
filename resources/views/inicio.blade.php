@@ -192,38 +192,7 @@
 
 @endif
 
-{{-- EXPERIENCIA --}}
-@if($perfil->experiencias->count())
 
-<div class="mt-4">
-
-    <h3 class="text-white font-semibold mb-2">
-        Experiencia Laboral
-    </h3>
-
-    @foreach($perfil->experiencias as $experiencia)
-
-        <div class="mb-2">
-
-            <p class="text-white">
-
-                {{ $experiencia->cargo }}
-
-            </p>
-
-            <p class="text-zinc-400 text-sm">
-
-                {{ $experiencia->empresa }}
-
-            </p>
-
-        </div>
-
-    @endforeach
-
-</div>
-
-@endif
 <div class="mt-6 flex gap-3 flex-col md:flex-row">
 
     <a href="{{ route('perfil.show', $perfil->id) }}"
