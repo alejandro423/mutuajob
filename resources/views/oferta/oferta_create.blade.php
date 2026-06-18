@@ -103,17 +103,18 @@
             <div>
 
                 <label class="block text-sm font-medium mb-2">
-                    Salario
+                    Salario (Bs.)
                 </label>
 
-                <input type="text"
-                       name="salario"
-                       value="{{ old('salario') }}"
-                       placeholder="Ej: Bs. 5000"
-                       class="w-full bg-zinc-900 border border-zinc-700
-                              rounded-xl px-4 py-3 text-white
-                              focus:outline-none focus:border-blue-500">
-
+                <input type="number"
+                  name="salario"
+                 value="{{ old('salario') }}"
+                  min="0"
+                  step="0.1"
+                 placeholder="Ej: 5000"
+                 class="w-full bg-zinc-900 border border-zinc-700
+              rounded-xl px-4 py-3 text-white
+              focus:outline-none focus:border-blue-500">
             </div>
 
         </div>
@@ -128,14 +129,15 @@
                     Número de contacto
                 </label>
 
-                <input type="text"
-                       name="numero_contacto"
-                       value="{{ old('numero_contacto') }}"
-                       placeholder="Ej: 77777777"
-                       class="w-full bg-zinc-900 border border-zinc-700
-                              rounded-xl px-4 py-3 text-white
-                              focus:outline-none focus:border-blue-500">
-
+               <input type="tel"
+       name="numero_contacto"
+       value="{{ old('numero_contacto') }}"
+       maxlength="20"
+       pattern="[0-9+\-\s]+"
+       placeholder="Ej: 77777777"
+       class="w-full bg-zinc-900 border border-zinc-700
+              rounded-xl px-4 py-3 text-white
+              focus:outline-none focus:border-blue-500">
             </div>
 
             {{-- EMAIL --}}
@@ -190,9 +192,9 @@
                                  rounded-xl px-4 py-3 text-white
                                  focus:outline-none focus:border-blue-500">{{ old('requisitos_deseables') }}</textarea>
 
-            </div>
+             </div>
 
-        </div>
+                 </div>
 
         {{-- MODALIDAD --}}
         <div class="grid md:grid-cols-3 gap-6">
@@ -255,16 +257,17 @@
                 </label>
 
                 <input type="number"
-                       name="vacantes"
-                       value="{{ old('vacantes') }}"
-                       min="1"
-                       class="w-full bg-zinc-900 border border-zinc-700
-                              rounded-xl px-4 py-3 text-white
-                              focus:outline-none focus:border-blue-500">
+                 name="vacantes"
+                 value="{{ old('vacantes') }}"
+                 min="1"
+                 max="100"
+                  required
+                 class="w-full bg-zinc-900 border border-zinc-700
+              rounded-xl px-4 py-3 text-white
+              focus:outline-none focus:border-blue-500">
+                </div>
 
-            </div>
-
-        </div>
+             </div>
 
         {{-- FECHA --}}
         <div>
@@ -273,13 +276,13 @@
                 Fecha límite
             </label>
 
-            <input type="date"
-                   name="fecha_limite"
-                   value="{{ old('fecha_limite') }}"
-                   class="w-full bg-zinc-900 border border-zinc-700
-                          rounded-xl px-4 py-3 text-white
-                          focus:outline-none focus:border-blue-500">
-
+           <input type="date"
+                 name="fecha_limite"
+                 value="{{ old('fecha_limite') }}"
+                  min="{{ date('Y-m-d') }}"
+                  class="w-full bg-zinc-900 border border-zinc-700
+              rounded-xl px-4 py-3 text-white
+              focus:outline-none focus:border-blue-500">
         </div>
 
         {{-- BOTONES --}}

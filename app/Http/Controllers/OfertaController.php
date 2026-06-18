@@ -58,38 +58,39 @@ class OfertaController extends Controller
     // GUARDAR OFERTA
     public function store(Request $request)
     {
-        Oferta::create($request->validate([
+        $validated = $request->validate([
+        'titulo' => 'required|string|max:255',
 
-            'titulo' => 'required|string|max:255',
+        'descripcion' => 'required|string|min:20',
 
-            'descripcion' => 'required|string',
+        'ubicacion' => 'nullable|string|max:255',
 
-            'ubicacion' => 'nullable|string|max:255',
+        'numero_contacto' => [
+        'nullable',
+        'string',
+        'max:20',
+        'regex:/^[0-9+\-\s]+$/'
+        ],
 
-            'numero_contacto' => 'nullable|string|max:50',
+        'email_contacto' => 'nullable|email|max:255',
 
-            'email_contacto' => 'nullable|email|max:255',
+        'requisitos_indispensables' => 'nullable|string',
+        'requisitos_deseables' => 'nullable|string',
 
-            'requisitos_indispensables' => 'nullable|string',
+        'salario' => 'nullable|numeric|min:0|max:100000',
 
-            'requisitos_deseables' => 'nullable|string',
+        'modalidad' => 'required|string|max:100',
 
-            'salario' => 'nullable|numeric',
+        'tipo_empleo' => 'required|string|max:100',
 
-            'modalidad' => 'required|string|max:100',
+        'vacantes' => 'required|integer|min:1|max:100',
 
-            'tipo_empleo' => 'required|string|max:100',
+        'fecha_limite' => 'nullable|date|after_or_equal:today',
+        ]);
 
-            'vacantes' => 'required|integer|min:1',
-
-            'fecha_limite' => 'nullable|date',
-
-        ]) + [
-
+        Oferta::create($validated + [
             'user_id' => Auth::id(),
-
             'estado' => 1,
-
         ]);
 
         return redirect()->route('oferta.index')
@@ -117,33 +118,35 @@ class OfertaController extends Controller
     {
         $oferta = Oferta::findOrFail($id);
 
-        $oferta->update($request->validate([
+        $validated = $request->validate([
+    'titulo' => 'required|string|max:255',
+    'descripcion' => 'required|string|min:20',
+    'ubicacion' => 'nullable|string|max:255',
 
-            'titulo' => 'required|string|max:255',
+    'numero_contacto' => [
+        'nullable',
+        'string',
+        'max:20',
+        'regex:/^[0-9+\-\s]+$/'
+    ],
 
-            'descripcion' => 'required|string',
+    'email_contacto' => 'nullable|email|max:255',
 
-            'ubicacion' => 'nullable|string|max:255',
+    'requisitos_indispensables' => 'nullable|string',
+    'requisitos_deseables' => 'nullable|string',
 
-            'numero_contacto' => 'nullable|string|max:50',
+    'salario' => 'nullable|numeric|min:0|max:100000',
 
-            'email_contacto' => 'nullable|email|max:255',
+    'modalidad' => 'required|string|max:100',
 
-            'requisitos_indispensables' => 'nullable|string',
+    'tipo_empleo' => 'required|string|max:100',
 
-            'requisitos_deseables' => 'nullable|string',
+    'vacantes' => 'required|integer|min:1|max:100',
 
-            'salario' => 'nullable|numeric',
+    'fecha_limite' => 'nullable|date|after_or_equal:today',
+]);
 
-            'modalidad' => 'required|string|max:100',
-
-            'tipo_empleo' => 'required|string|max:100',
-
-            'vacantes' => 'required|integer|min:1',
-
-            'fecha_limite' => 'nullable|date',
-
-        ]));
+        $oferta->update($validated);
 
         return redirect()->route('oferta.index')
             ->with('success', 'Oferta actualizada correctamente');
