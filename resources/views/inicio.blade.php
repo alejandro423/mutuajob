@@ -24,12 +24,27 @@
 
             <div class="mt-5 space-y-2 text-zinc-400 text-sm">
 
-                <p>📍 {{ $oferta->ubicacion ?? 'Ubicación no especificada' }}</p>
-                <p>💰 {{ $oferta->salario ? 'Bs. '.$oferta->salario : 'Salario a convenir' }}</p>
-                <p>🏢 {{ $oferta->modalidad }}</p>
-                <p>📋 {{ $oferta->tipo_empleo }}</p>
+    <p class="flex items-center gap-2">
+        <i class="bi bi-geo-alt-fill text-zinc-500"></i>
+        {{ $oferta->ubicacion ?? 'Ubicación no especificada' }}
+    </p>
 
-            </div>
+    <p class="flex items-center gap-2">
+        <i class="bi bi-cash-coin text-zinc-500"></i>
+        {{ $oferta->salario ? 'Bs. '.$oferta->salario : 'Salario a convenir' }}
+    </p>
+
+    <p class="flex items-center gap-2">
+        <i class="bi bi-building text-zinc-500"></i>
+        {{ $oferta->modalidad }}
+    </p>
+
+    <p class="flex items-center gap-2">
+        <i class="bi bi-briefcase text-zinc-500"></i>
+        {{ $oferta->tipo_empleo }}
+    </p>
+
+</div>
 
             <div class="mt-6">
 
@@ -37,9 +52,9 @@
                     Descripción
                 </h2>
 
-                <p class="text-zinc-300 text-sm leading-relaxed">
-                    {{ $oferta->descripcion }}
-                </p>
+                <p class="text-zinc-300 text-sm leading-relaxed break-words whitespace-normal">
+    {{ $oferta->descripcion }}
+</p>
 
             </div>
 
@@ -114,29 +129,29 @@
 
     <div>
 
-        <h1 class="text-2xl font-bold text-white">
-            {{ $perfil->nombre }} {{ $perfil->apellido }}
-        </h1>
+        <h1 class="text-2xl font-bold text-white break-words">
+    {{ $perfil->nombre }} {{ $perfil->apellido }}
+</h1>
 
-        <p class="text-zinc-400 mt-1">
-            {{ $perfil->profesion }}
-        </p>
+        <p class="text-zinc-400 mt-1 break-words">
+    {{ $perfil->profesion }}
+</p>
 
     </div>
 
 </div>
 
-        <div class="mt-4 space-y-1 text-sm text-zinc-400">
+        <div class="mt-4 space-y-1 text-sm text-zinc-400 break-words">
 
-            <p> {{ $perfil->ubicacion }}</p>
-            <p> {{ $perfil->email }}</p>
-            <p> {{ $perfil->telefono }}</p>
-            <p> DNI: {{ $perfil->dni }}</p>
-            <p> {{ $perfil->sexo }}</p>
+    <p class="break-words">{{ $perfil->ubicacion }}</p>
+    <p class="break-words">{{ $perfil->email }}</p>
+    <p class="break-words">{{ $perfil->telefono }}</p>
+    <p class="break-words">DNI: {{ $perfil->dni }}</p>
+    <p class="break-words">{{ $perfil->sexo }}</p>
 
-        </div>
+</div>
 
-       <p class="text-zinc-300 mt-4 text-sm leading-relaxed">
+       <p class="text-zinc-300 mt-4 text-sm leading-relaxed break-words whitespace-normal">
     {{ $perfil->resumen_profesional }}
 </p>
 

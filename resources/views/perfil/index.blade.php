@@ -161,10 +161,10 @@
 {{-- DATOS PERFIL --}}
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    {{-- DNI --}}
+    {{-- CI --}}
     <div>
         <p class="text-zinc-400 text-sm">
-            DNI / CI
+            CEDULA DE IDENTIDAD
         </p>
 
         <p class="text-white">
