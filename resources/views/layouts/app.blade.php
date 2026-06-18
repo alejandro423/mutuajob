@@ -163,16 +163,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 </div>
 
-            {{-- SOLICITUDES --}}
-            <a href="{{ route('solicitudes.index') }}"
-   class="flex flex-col items-center text-xs transition
-   {{ request()->is('solicitudes*') ? 'text-white' : 'text-zinc-400' }}">
+           {{-- SOLICITUDES --}}
+@if(auth()->check() && !auth()->user()->hasRole('administrador'))
 
-    <i class="bi bi-bell text-xl mb-1"></i>
+    <a href="{{ route('solicitudes.index') }}"
+       class="flex flex-col items-center text-xs transition
+       {{ request()->is('solicitudes*') ? 'text-white' : 'text-zinc-400' }}">
 
-    Avisos
+        <i class="bi bi-bell text-xl mb-1"></i>
 
-</a>
+        Avisos
+
+    </a>
+
+@endif
             {{-- CUENTA --}}
             @if(Auth::check())
 
