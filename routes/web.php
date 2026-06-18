@@ -368,13 +368,29 @@ Route::middleware(['auth'])->group(function () {
         ->name('perfil.show');
 });
 # SOLICITUDES
-Route::middleware(['auth'])->group(function () {
-    Route::get('/solicitudes', [SolicitudesController::class, 'index'])
-    ->name('solicitudes.index');
-Route::post('/oferta/{ofertaId}/postular', [SolicitudesController::class, 'postular'])
-    ->name('solicitudes.postular');
-Route::post('/oferta/{ofertaId}/invitar/{perfilId}', [SolicitudesController::class, 'invitar'])
-    ->name('solicitudes.invitar');
-    Route::post('/solicitud/{id}/estado', [SolicitudesController::class, 'cambiarEstado'])
-    ->name('solicitud.estado');
-    });
+
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/solicitudes',
+        [SolicitudesController::class, 'index']
+    )->name('solicitudes.index');
+
+    Route::post(
+        '/solicitudes/postular/{ofertaId}',
+        [SolicitudesController::class, 'postular']
+    )->name('solicitudes.postular');
+
+    Route::post(
+        '/solicitudes/invitar/{perfilId}/{ofertaId}',
+        [SolicitudesController::class, 'invitar']
+    )->name('solicitudes.invitar');
+
+    Route::post(
+    '/solicitudes/{id}/estado',
+    [SolicitudesController::class, 'cambiarEstado']
+)->name('solicitudes.estado');
+
+    
+
+});

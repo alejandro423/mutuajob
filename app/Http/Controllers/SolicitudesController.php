@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class SolicitudesController extends Controller
 {
     
-  public function index()
+ public function index()
 {
     if (!Auth::check()) {
         return redirect('/login');
@@ -26,46 +26,54 @@ class SolicitudesController extends Controller
         $perfil = Perfil::where('user_id', $user->id)->first();
 
         if (!$perfil) {
-            return view('solicitudes.index', [
-                'solicitudes' => collect()
-            ]);
+
+            return view(
+                'solicitudes.trabajador.index',
+                ['solicitudes' => collect()]
+            );
+
         }
 
-        $solicitudes = Solicitudes::with(['oferta'])
+        $solicitudes = Solicitudes::with([
+                'oferta',
+                'oferta.user'
+            ])
             ->where('perfil_id', $perfil->id)
             ->latest()
             ->get();
 
-        return view('solicitudes.index', compact('solicitudes'));
+        return view(
+            'solicitudes.trabajador.index',
+            compact('solicitudes')
+        );
     }
 
     // 🟢 EMPLEADOR
     if ($user->roles()->where('nombre', 'empleador')->exists()) {
 
-        $solicitudes = Solicitudes::with(['perfil', 'oferta'])
+        $solicitudes = Solicitudes::with([
+                'perfil',
+                'oferta'
+            ])
             ->where('tipo', 'postulacion')
             ->whereHas('oferta', function ($query) use ($user) {
-                $query->where('user_id', $user->id);
+
+                $query->where(
+                    'user_id',
+                    $user->id
+                );
+
             })
             ->latest()
             ->get();
 
-        return view('solicitudes.index', compact('solicitudes'));
+        return view(
+            'solicitudes.empleador.index',
+            compact('solicitudes')
+        );
     }
 
-    // 🔴 ADMIN
-    if ($user->roles()->where('nombre', 'administrador')->exists()) {
-
-        $solicitudes = Solicitudes::with(['perfil', 'oferta'])
-            ->latest()
-            ->get();
-
-        return view('solicitudes.index', compact('solicitudes'));
-    }
-
-    return view('solicitudes.index', [
-        'solicitudes' => collect()
-    ]);
+    return redirect('/inicio');
 }
     public function postular(int $ofertaId)
 {
@@ -121,16 +129,52 @@ public function invitar(int $perfilId, int $ofertaId)
 }
 public function cambiarEstado(Request $request, int $id)
 {
-    $solicitud = Solicitudes::findOrFail($id);
-
     $request->validate([
-        'estado' => 'required|in:pendiente,aceptada,rechazada'
+        'estado' => 'required|in:aceptada,rechazada'
     ]);
 
-    $solicitud->update([
-        'estado' => $request->estado
-    ]);
+    $solicitud = Solicitudes::with([
+        'perfil',
+        'oferta'
+    ])->findOrFail($id);
 
-    return back()->with('success', 'Estado actualizado');
+    /** @var \App\Models\User $user */
+    $user = Auth::user();
+
+    // EMPLEADOR responde postulaciones
+    if (
+        $user->roles()->where('nombre', 'empleador')->exists()
+        && $solicitud->tipo === 'postulacion'
+        && $solicitud->oferta->user_id === $user->id
+    ) {
+
+        $solicitud->update([
+            'estado' => $request->estado
+        ]);
+
+        return back()->with(
+            'success',
+            'Postulación actualizada.'
+        );
+    }
+
+    // TRABAJADOR responde invitaciones
+    if (
+        $user->roles()->where('nombre', 'trabajador')->exists()
+        && $solicitud->tipo === 'invitacion'
+        && $solicitud->perfil->user_id === $user->id
+    ) {
+
+        $solicitud->update([
+            'estado' => $request->estado
+        ]);
+
+        return back()->with(
+            'success',
+            'Invitación actualizada.'
+        );
+    }
+
+    abort(403);
 }
 }
