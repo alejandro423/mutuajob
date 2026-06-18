@@ -14,6 +14,7 @@ use App\Http\Controllers\CertificacionController;
 use App\Http\Controllers\ExperienciaController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\PerfilUserController;
+use App\Http\Controllers\OfertaUserController;
 use App\Http\Controllers\SolicitudesController;
 use App\Http\Controllers\HomeController;
 use App\Models\TrabPerfil;
@@ -274,7 +275,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/oferta/{id}', [OfertaController::class, 'update'])
         ->name('oferta.update');
-
+    Route::put('/oferta/estado/{id}', [OfertaController::class, 'toggleEstado'])
+    ->name('oferta.toggleEstado');
+    
     Route::delete('/oferta/{id}', [OfertaController::class, 'destroy'])
         ->name('oferta.destroy');
         Route::get(
@@ -335,6 +338,27 @@ Route::post('/admin/perfil/desbloquear/{id}', [PerfilUserController::class, 'adm
     ->name('administrador.perfiles_user.desbloquear');    Route::post('/perfiles_user', [PerfilUserController::class, 'store'])
         ->name('administrador.perfiles_user.store');
     
+});
+# ofertas_user
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/ofertas_user', [OfertaUserController::class, 'index'])
+        ->name('administrador.ofertas_user.index');
+
+    Route::get('/ofertas_user/{id}', [OfertaUserController::class, 'show'])
+        ->name('administrador.ofertas_user.show');
+
+    Route::get('/ofertas_user/{id}/edit', [OfertaUserController::class, 'edit'])
+        ->name('administrador.ofertas_user.edit');
+
+    Route::put('/ofertas_user/{id}', [OfertaUserController::class, 'update'])
+        ->name('administrador.ofertas_user.update');
+
+    Route::post('/ofertas_user/{id}/bloquear', [OfertaUserController::class, 'adminBloquear'])
+        ->name('administrador.ofertas_user.bloquear');
+
+    Route::post('/ofertas_user/{id}/desbloquear', [OfertaUserController::class, 'adminDesbloquear'])
+        ->name('administrador.ofertas_user.desbloquear');
 });
 #inicios
 Route::middleware(['auth'])->group(function () {

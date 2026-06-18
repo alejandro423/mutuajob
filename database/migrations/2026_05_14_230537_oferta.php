@@ -49,9 +49,13 @@ return new class extends Migration
             $table->integer('vacantes')->default(1);
 
             // ESTADO
-            $table->boolean('estado')->default(true);
-            // true = activa
-            // false = cerrada
+$table->boolean('estado')->default(true);
+// true = activa
+// false = cerrada
+
+$table->boolean('bloqueada')->default(false);
+// false = visible
+// true = bloqueada por administrador
 
             // FECHA LIMITE
             $table->date('fecha_limite')->nullable();

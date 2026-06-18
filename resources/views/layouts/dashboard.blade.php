@@ -59,7 +59,14 @@
     perfiles de trabajadores
 
 </a>
+<a href="{{ route('administrador.ofertas_user.index') }}"
+   class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
 
+    <i class="bi bi-person-vcard text-lg"></i>
+
+    oferta de empleadores
+
+</a>
 </nav>
         </div>
 

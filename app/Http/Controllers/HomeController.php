@@ -21,8 +21,9 @@ class HomeController extends Controller
     if ($user && $user->hasRole('trabajador')) {
 
         $ofertas = Oferta::where('estado', 1)
-            ->latest()
-            ->get();
+    ->where('bloqueada', 0)
+    ->latest()
+    ->get();
     }
 
     if ($user && $user->hasRole('empleador')) {

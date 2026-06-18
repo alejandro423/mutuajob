@@ -9,21 +9,22 @@ class Oferta extends Model
     protected $table = 'ofertas';
 
     protected $fillable = [
-        'user_id',
-        'titulo',
-        'descripcion',
-        'ubicacion',
-        'numero_contacto',
-        'email_contacto',
-        'requisitos_indispensables',
-        'requisitos_deseables',
-        'salario',
-        'modalidad',
-        'tipo_empleo',
-        'vacantes',
-        'estado',
-        'fecha_limite',
-    ];
+    'user_id',
+    'titulo',
+    'descripcion',
+    'ubicacion',
+    'numero_contacto',
+    'email_contacto',
+    'requisitos_indispensables',
+    'requisitos_deseables',
+    'salario',
+    'modalidad',
+    'tipo_empleo',
+    'vacantes',
+    'estado',
+    'bloqueada',
+    'fecha_limite',
+];
 
     protected $casts = [
         'fecha_limite' => 'date',

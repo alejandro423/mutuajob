@@ -11,7 +11,7 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
-<body class="bg-black text-white min-h-screen flex flex-col justify-between">
+<body class="bg-black text-white min-h-screen flex flex-col justify-between overflow-x-hidden">
 
     {{-- CONTENIDO --}}
     <main class="flex-1 pb-32">

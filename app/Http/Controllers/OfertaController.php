@@ -77,7 +77,7 @@ class OfertaController extends Controller
         'requisitos_indispensables' => 'nullable|string',
         'requisitos_deseables' => 'nullable|string',
 
-        'salario' => 'nullable|numeric|min:0|max:100000',
+        'salario' => 'nullable|numeric|min:0',
 
         'modalidad' => 'required|string|max:100',
 
@@ -116,6 +116,7 @@ class OfertaController extends Controller
     // ACTUALIZAR OFERTA
     public function update(Request $request, int $id)
     {
+        
         $oferta = Oferta::findOrFail($id);
 
         $validated = $request->validate([
@@ -162,6 +163,24 @@ class OfertaController extends Controller
         return redirect()->route('oferta.index')
             ->with('success', 'Oferta eliminada correctamente');
     }
+    public function toggleEstado(int $id)
+{
+    $oferta = Oferta::findOrFail($id);
+
+    // 🚨 si está bloqueada por admin, no se puede cambiar
+    if ($oferta->bloqueada) {
+        return back()->with('error', 'La oferta está bloqueada por el administrador');
+    }
+
+    $oferta->update([
+        'estado' => !$oferta->estado
+    ]);
+
+    return back()->with(
+        'success',
+        $oferta->estado ? 'Oferta activada' : 'Oferta cerrada'
+    );
+}
     public function pdf(int $id)
 {
     $oferta = Oferta::findOrFail($id);
