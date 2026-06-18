@@ -329,8 +329,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('administrador.perfiles_user.edit');
     Route::put('/perfil_user/{id}', [PerfilUserController::class, 'update'])
         ->name('administrador.perfiles_user.update');
-    Route::delete('/perfil_user/{id}', [PerfilUserController::class, 'destroy'])
-        ->name('administrador.perfiles_user.destroy');
+Route::post('/admin/perfil/bloquear/{id}', [PerfilUserController::class, 'adminBloquear'])
+    ->name('administrador.perfiles_user.bloquear');
+Route::post('/admin/perfil/desbloquear/{id}', [PerfilUserController::class, 'adminDesbloquear'])
+    ->name('administrador.perfiles_user.desbloquear');    Route::post('/perfiles_user', [PerfilUserController::class, 'store'])
+        ->name('administrador.perfiles_user.store');
+    
 });
 #inicios
 Route::middleware(['auth'])->group(function () {

@@ -162,24 +162,36 @@
 
                                 </a>
 
-                                {{-- ELIMINAR --}}
-                                <form action="{{ route('administrador.perfiles_user.destroy', $perfil->id) }}"
-                                      method="POST"
-                                      onsubmit="return confirm('¿Eliminar este perfil?')">
+                                {{-- BLOQUEAR / DESBLOQUEAR --}}
+@if(!$perfil->bloqueado)
+    <form action="{{ route('administrador.perfiles_user.bloquear', $perfil->id) }}"
+          method="POST"
+          onsubmit="return confirm('¿Bloquear este perfil?')">
 
-                                    @csrf
-                                    @method('DELETE')
+        @csrf
 
-                                    <button type="submit"
-                                            class="px-4 py-2 bg-red-600
-                                                   hover:bg-red-700 rounded-lg
-                                                   text-sm font-medium transition">
+        <button type="submit"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm font-medium transition">
 
-                                        Eliminar
+            Bloquear
 
-                                    </button>
+        </button>
+    </form>
+@else
+    <form action="{{ route('administrador.perfiles_user.desbloquear', $perfil->id) }}"
+          method="POST"
+          onsubmit="return confirm('¿Desbloquear este perfil?')">
 
-                                </form>
+        @csrf
+
+        <button type="submit"
+                class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm font-medium transition">
+
+            Desbloquear
+
+        </button>
+    </form>
+@endif
 
                             </div>
 

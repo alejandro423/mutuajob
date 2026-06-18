@@ -28,14 +28,15 @@ class HomeController extends Controller
     if ($user && $user->hasRole('empleador')) {
 
         $perfiles = Perfil::with([
-            'habilidades',
-            'idiomas',
-            'certificaciones',
-            'experiencias'
-        ])
-        ->where('estado', 1)
-        ->latest()
-        ->get();
+    'habilidades',
+    'idiomas',
+    'certificaciones',
+    'experiencias'
+])
+->where('estado', 1)
+->where('bloqueado', 0)
+->latest()
+->get();
     }
 
     if ($user && $user->hasRole('administrador')) {

@@ -63,18 +63,19 @@ class PerfilUserController extends Controller
 
     // MOSTRAR
     public function show(int $id)
-    {
-        $perfil = Perfil::with([
-            'habilidades',
-            'idiomas'
-        ])->findOrFail($id);
+{
+    $perfil = Perfil::with([
+        'habilidades',
+        'idiomas',
+        'certificaciones',
+        'experiencias'
+    ])->findOrFail($id);
 
-        return view(
-            'administrador.perfiles_user.show',
-            compact('perfil')
-        );
-    }
-
+    return view(
+        'administrador.perfiles_user.show',
+        compact('perfil')
+    );
+}
     // FORM EDITAR
     public function edit(int $id)
     {
@@ -120,18 +121,25 @@ class PerfilUserController extends Controller
     }
 
     // ELIMINAR
-    public function destroy(int $id)
-    {
-        $perfil = Perfil::findOrFail($id);
+    public function adminBloquear(int $id)
+{
+    $perfil = Perfil::findOrFail($id);
 
-        $perfil->delete();
+    $perfil->update([
+        'estado' => false,
+        'bloqueado' => true
+    ]);
 
-        return redirect()
-            ->route('administrador.perfiles_user.index')
-            ->with(
-                'success',
-                'Perfil eliminado correctamente.'
-            );
-    }
-    
+    return back()->with('success', 'Perfil bloqueado');
+}
+public function adminDesbloquear(int $id)
+{
+    $perfil = Perfil::findOrFail($id);
+
+    $perfil->update([
+        'bloqueado' => false
+    ]);
+
+    return back()->with('success', 'Perfil desbloqueado');
+}
 }

@@ -31,6 +31,7 @@ class Perfil extends Model
         'modalidad',
         'salario_esperado',
         'estado',
+        'bloqueado',
     ];
 
     public function user()

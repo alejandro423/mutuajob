@@ -10,7 +10,42 @@
 
            {{-- HEADER PERFIL --}}
 <div class="border-b border-zinc-800 pb-6 mb-6">
-{{-- ESTADO PERFIL --}}
+    {{-- BLOQUEO ADMIN --}}
+    @if($perfil && $perfil->bloqueado)
+
+        <div class="mb-6 p-4 bg-red-900/40 border border-red-600 rounded-xl">
+
+            <div class="flex items-center gap-2">
+
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="w-5 h-5 text-red-400"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     stroke="currentColor">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+
+                </svg>
+
+                <h3 class="font-bold text-red-300">
+                    Perfil bloqueado por administrador
+                </h3>
+
+            </div>
+
+            <p class="text-red-100 text-sm mt-2">
+                Tu perfil ha sido restringido por un administrador.
+                No podrás habilitarlo ni aparecer en búsquedas hasta que sea desbloqueado.
+            </p>
+
+        </div>
+
+    @endif
+
+    {{-- ESTADO PERFIL --}}
 <div class="flex items-center justify-between bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 mt-4">
 
     <div>
@@ -21,7 +56,13 @@
 
         <p class="text-sm font-semibold">
 
-            @if($perfil->estado)
+            @if($perfil->bloqueado)
+
+                <span class="text-red-400">
+                    Bloqueado por administrador
+                </span>
+
+            @elseif($perfil->estado)
 
                 <span class="text-green-400">
                     Habilitado
@@ -29,7 +70,7 @@
 
             @else
 
-                <span class="text-red-400">
+                <span class="text-yellow-400">
                     Deshabilitado
                 </span>
 
@@ -39,27 +80,41 @@
 
     </div>
 
-    <form action="{{ route('perfil.toggleEstado', $perfil->id) }}"
-          method="POST">
+    @if(!$perfil->bloqueado)
 
-        @csrf
-        @method('PUT')
+        <form action="{{ route('perfil.toggleEstado', $perfil->id) }}"
+              method="POST">
 
-        <button type="submit"
-                class="relative inline-flex h-7 w-14 items-center rounded-full transition
-                {{ $perfil->estado ? 'bg-green-600' : 'bg-zinc-600' }}">
+            @csrf
+            @method('PUT')
 
-            <span class="inline-block h-5 w-5 transform rounded-full bg-white transition
-            {{ $perfil->estado ? 'translate-x-8' : 'translate-x-1' }}">
+            <button type="submit"
+                    class="relative inline-flex h-7 w-14 items-center rounded-full transition
+                    {{ $perfil->estado ? 'bg-green-600' : 'bg-zinc-600' }}">
+
+                <span class="inline-block h-5 w-5 transform rounded-full bg-white transition
+                {{ $perfil->estado ? 'translate-x-8' : 'translate-x-1' }}">
+                </span>
+
+            </button>
+
+        </form>
+
+    @else
+
+        <button disabled
+                class="relative inline-flex h-7 w-14 items-center rounded-full bg-red-700 opacity-70 cursor-not-allowed">
+
+            <span class="inline-block h-5 w-5 translate-x-1 rounded-full bg-white">
             </span>
 
         </button>
 
-    </form>
+    @endif
 
 </div>
-    <div class="flex flex-col md:flex-row items-center md:items-start gap-5">
 
+<div class="flex flex-col md:flex-row items-center md:items-start gap-5">
         {{-- FOTO --}}
         <div class="w-28 h-28 rounded-full overflow-hidden bg-zinc-700 shrink-0">
 
@@ -219,7 +274,7 @@
 
         <h2 class="text-xl font-bold">Habilidades</h2>
 
-        <a href="{{ route('habilidades.create') }}"
+        <a href="{{ route('perfil_habilidad.create') }}"
            class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm font-semibold">
             + Agregar habilidad
         </a>
