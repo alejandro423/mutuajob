@@ -394,3 +394,20 @@ Route::middleware('auth')->group(function () {
     
 
 });
+# CHAT
+use App\Http\Controllers\ChatController;
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/chat', [ChatController::class, 'index'])
+        ->name('chat.index');
+
+    Route::get('/chat/{id}', [ChatController::class, 'show'])
+        ->name('chat.show');
+
+    Route::post('/chat/start/{userId}', [ChatController::class, 'start'])
+        ->name('chat.start');
+
+    Route::post('/chat/{id}/send', [ChatController::class, 'send'])
+        ->name('chat.send');
+});

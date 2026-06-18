@@ -77,6 +77,17 @@
                         Postularme
                     </button>
                 </form>
+                <form action="{{ route('chat.start', $perfil->user_id) }}" method="POST"
+      class="flex-1">
+
+    @csrf
+
+    <button type="submit"
+            class="w-full py-3 bg-purple-600 hover:bg-purple-700 rounded-xl transition">
+        Chat
+    </button>
+
+</form>
             @endauth
 
         </div>
@@ -227,7 +238,14 @@
         </button>
 
     </form>
+<form action="{{ route('chat.start', $perfil->user_id) }}" method="POST">
+    @csrf
 
+    <button type="submit"
+            class="w-full py-3 bg-zinc-700 hover:bg-zinc-600 rounded-xl transition">
+        Chat
+    </button>
+</form>
 </div>
 
 </section>

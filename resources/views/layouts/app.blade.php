@@ -68,16 +68,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
             </a>
 
-            {{-- FAVORITOS --}}
-            <a href="{{ url('/favoritos') }}"
-               class="flex flex-col items-center text-xs transition
-               {{ request()->is('favoritos') ? 'text-white' : 'text-zinc-400' }}">
+            {{-- CHAT --}}
+<a href="{{ route('chat.index') }}"
+   class="flex flex-col items-center text-xs transition
+   {{ request()->is('chat*') ? 'text-white' : 'text-zinc-400' }}">
 
-                <i class="bi bi-heart text-xl mb-1"></i>
+    <i class="bi bi-chat-dots text-xl mb-1"></i>
 
-                Favoritos
+    Chat
 
-            </a>
+</a>
 
             {{-- BOTON CENTRAL --}}
 <div class="flex flex-col items-center">
