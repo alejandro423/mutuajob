@@ -39,7 +39,7 @@ DB_DATABASE=mutuajob
 DB_USERNAME=root
 DB_PASSWORD=
 4. Ejecutar migraciones y seeders con datos pregrabados
-php artisan migrate --seed
+php artisan migrate:fresh --seed
 5. Iniciar servidor
 php artisan serve
 
