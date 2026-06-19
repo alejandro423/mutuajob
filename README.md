@@ -38,8 +38,8 @@ DB_PORT=3306
 DB_DATABASE=mutuajob
 DB_USERNAME=root
 DB_PASSWORD=
-4. Ejecutar migraciones
-php artisan migrate
+4. Ejecutar migraciones y seeders con datos pregrabados
+php artisan migrate --seed
 5. Iniciar servidor
 php artisan serve
 
