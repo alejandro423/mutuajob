@@ -67,6 +67,7 @@
     oferta de empleadores
 
 </a>
+{{--
 <a href="{{ route('administrador.solicitudes_user.index') }}"
    class="flex items-center gap-3 bg-zinc-900 hover:bg-zinc-800 px-4 py-3 rounded-xl transition">
 
@@ -75,6 +76,7 @@
     gestionar solicitudes
 
 </a>
+--}}
 </nav>
         </div>
 

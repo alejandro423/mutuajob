@@ -16,6 +16,7 @@ use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\PerfilUserController;
 use App\Http\Controllers\OfertaUserController;
 use App\Http\Controllers\SolicitudesController;
+use App\Http\Controllers\SolicitudesAdminController;
 use App\Http\Controllers\HomeController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
@@ -392,6 +393,28 @@ Route::middleware('auth')->group(function () {
 )->name('solicitudes.estado');
 
     
+
+});
+# solicitudes_user (ADMIN)
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/solicitudes_user', [SolicitudesAdminController::class, 'index'])
+        ->name('administrador.solicitudes_user.index');
+
+    Route::get('/solicitudes_user/{id}', [SolicitudesAdminController::class, 'show'])
+        ->name('administrador.solicitudes_user.show');
+
+    Route::get('/solicitudes_user/{id}/edit', [SolicitudesAdminController::class, 'edit'])
+        ->name('administrador.solicitudes_user.edit');
+
+    Route::put('/solicitudes_user/{id}', [SolicitudesAdminController::class, 'update'])
+        ->name('administrador.solicitudes_user.update');
+
+    Route::post('/solicitudes_user/{id}/aceptar', [SolicitudesAdminController::class, 'aceptar'])
+        ->name('administrador.solicitudes_user.aceptar');
+
+    Route::post('/solicitudes_user/{id}/rechazar', [SolicitudesAdminController::class, 'rechazar'])
+        ->name('administrador.solicitudes_user.rechazar');
 
 });
 # CHAT
