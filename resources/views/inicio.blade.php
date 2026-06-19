@@ -5,7 +5,7 @@
 <div class="h-[calc(100vh-96px)] overflow-y-scroll snap-y snap-mandatory">
 
 {{-- 🔵 OFERTAS (TRABAJADOR) --}}
-@forelse($ofertas as $oferta)
+@forelse($ofertas ?? [] as $oferta)
 
 <section class="h-[calc(100vh-96px)] snap-start flex items-center justify-center px-6">
 
@@ -113,7 +113,7 @@
 
 
 {{-- 🟢 PERFILES (EMPLEADOR) --}}
-@forelse($perfiles as $perfil)
+@forelse($perfiles ?? [] as $perfil)
 
 <section class="h-[calc(100vh-96px)] snap-start flex items-center justify-center px-6">
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\SolicitudesController;
 use App\Http\Controllers\SolicitudesAdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Controllers\AdminController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -87,9 +88,7 @@ Route::post('/2fa/verify', [TwoFactorController::class, 'verify2FA']);
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index']);
 });
-Route::get('/administrador/inicio', function () {
-    return view('inicio');
-})->middleware(['auth', 'role:administrador']);
+Route::get('/administrador/inicio', [AdminController::class, 'inicio'])->middleware(['auth', 'role:administrador']);
 # MODULO DE USUARIOS
 Route::middleware(['auth', 'role:administrador'])
 
@@ -446,3 +445,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/chat/{id}/send', [ChatController::class, 'send'])
         ->name('chat.send');
 });
+
