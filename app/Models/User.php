@@ -23,6 +23,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'estado',
+        'google2fa_secret',
+        'google2fa_enabled'
     ];
 
     protected $hidden = [

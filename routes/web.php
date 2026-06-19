@@ -18,6 +18,7 @@ use App\Http\Controllers\OfertaUserController;
 use App\Http\Controllers\SolicitudesController;
 use App\Http\Controllers\SolicitudesAdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TwoFactorController;
 use App\Models\TrabPerfil;
 use App\Models\Habilidad;
 Route::get('/', function () {
@@ -71,12 +72,23 @@ Route::post('/logout', function () {
 
     return redirect('/inicio');
 })->name('logout');
+#2FA
+// Activar 2FA
+Route::get('/2fa/enable', [TwoFactorController::class, 'showEnable2FA']);
+Route::post('/2fa/confirm', [TwoFactorController::class, 'confirmEnable2FA']);
+
+// Verificar login 2FA
+Route::get('/2fa', function () {
+    return view('2fa.verify');
+})->middleware('auth');
+
+Route::post('/2fa/verify', [TwoFactorController::class, 'verify2FA']);
 #amiddleware
 Route::middleware(['auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index']);
 });
 Route::get('/administrador/inicio', function () {
-    return view('administrador.inicio');
+    return view('inicio');
 })->middleware(['auth', 'role:administrador']);
 # MODULO DE USUARIOS
 Route::middleware(['auth', 'role:administrador'])
